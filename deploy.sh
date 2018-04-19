@@ -1,0 +1,1 @@
+npm run build && rsync -avz --delete --exclude ‘.DS_Store’ dist/ ../../server/public
