@@ -18,12 +18,16 @@ import forumPost from './ForumPost.vue'
 import forumPostEditor from './ForumPostEditor.vue'
 import forumAPI from '../api/forum'
 import ServerMessage from './ServerMessage.vue'
+
+
+
 // import Vue from 'vue'
 export default {
   components: { forumpost: forumPost, posteditor: forumPostEditor, ServerMessage },
   data () {
     return {
-      posts: []
+      posts: [],
+      cache:cache
     }
   },
 
