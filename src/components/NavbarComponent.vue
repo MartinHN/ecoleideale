@@ -1,9 +1,9 @@
 <!--NavbarComponent.vue-->
 <template>
-  <div class="band">
+  <div>
     <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <router-link class="navbar-item" :to="{name:'MainPage'}" ><img src="../assets/logo_small.png" href="/"></router-link>
+        <router-link class="navbar-item" :to="{name:'MainPage'}" ><img src="@/assets/logo_small.png" href="/"></router-link>
 
         <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
@@ -19,18 +19,22 @@
           <custom-link to='Presse'>Presse</custom-link>
           <custom-link to='Contact'>Contact</custom-link>
           <custom-link to='Forum'>Forum</custom-link>
-          <template v-if="!$store.state.loggedIn">
-            <button  class="button" @click="isShowingLogin=true">Login</button>
-          </template>
-          <template v-else>
-            <span>bonjour</span>
-            <br/>
-            <span>{{username}}</span>
-          </template>
-          <share></share>
+          <div class="navbar-item">
+            <share></share>
+            <div style="margin-left:10px">
+              <template v-if="!$store.state.loggedIn">
+                <button  class="button is-small" @click="isShowingLogin=true">Login</button>
+              </template>
+              <template v-else>
+                <span>bonjour</span>
+                <br/>
+                <span>{{username}}</span>
+              </template>
+            </div>
+          </div>
         </div>
 
-        <!-- <span class="hline"/> -->
+        
       </div>
 
     </nav>
@@ -87,9 +91,15 @@ export default {
 </script>
 
 <style scoped >
-
+button{
+  align-self: center;
+}
 .navbar{
-  border-bottom: 1px solid red;
+  border-bottom: 1px solid black;
+}
+
+.navbar-burger{
+  height: 10vh;
 }
 .navbar-end{
   /*background:red;*/
@@ -97,15 +107,17 @@ export default {
   justify-content: space-between;
   width:100%;
 }
-.hline {
-  display:inline-block;
-  width:100%;
-  height:3px;
-  background: red;
+nav{
+  height: 10vh;
+  min-height: 10vh; 
+}
+.navbar-brand{
+  min-height: 9vh; /*????*/
+  /*height:100%;*/
 }
 img{
   display: block;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
   max-height: 7vh;
 }
 

@@ -23,7 +23,7 @@ export default {
 @import "~buefy/node_modules/bulma/sass/utilities/_all";
 
 // Set your colors
-$primary: #ff0000;
+$primary: #BE0004;
 $primary-invert: findColorInvert($primary);
 $twitter: #4099FF;
 $twitter-invert: findColorInvert($twitter);
@@ -42,6 +42,7 @@ $colors: (
     "twitter": ($twitter, $twitter-invert)
 );
 $navbar-item-color : "red";
+// $navbar-height: 7vh;
 // Links
 $link: $primary;
 $link-invert: $primary-invert;
@@ -52,7 +53,8 @@ $link-focus-border: $primary;
 @import "~buefy/src/scss/buefy";
 
 #router-view{
-  min-height: 93vh; /*7 vh in navbar*/
+  // height:auto;
+  min-height: 90vh;//calc( 100% - 3.25rem -10px ); /*7 vh in navbar*/
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -60,7 +62,8 @@ $link-focus-border: $primary;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 10px;
+  // margin-top: 10px;
+  // scroll-behavior: smooth;
 }
 h1, h2 {
   font-weight: bold;

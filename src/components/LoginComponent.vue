@@ -2,7 +2,10 @@
   <div>
     <!-- <h1> login </h1> -->
     <br/>
-    <div class="columns">
+    <h1 v-if="isConnectedToServer=='error'"> pas de connection au server</h1>
+    <b-loading v-else-if="isConnectedToServer=='waiting'" :is-full-page="false" :active="true"> waiting</b-loading>
+
+    <div v-else class="columns">
       <div class="column">
         <h3 class="title is-8">j'ai déjà un compte</h3>
         <form ref="loginForm" id="loginForm" :action="loginServer" method="post" class="formInputs">
@@ -45,6 +48,7 @@
 <script>
 
 import _ from  'lodash'
+import usersAPI from '@/api/users'
 
 const checkMinLength = function (s) {
   if (s === '') { return 'veuillez renseigner ce champ' }
@@ -86,7 +90,8 @@ const validateRegister = function () {
 export default {
   data () {
     return {
-      loginServer: 'http://127.0.0.1:3000/api/user',
+      loginServer :usersAPI.url,
+      isConnectedToServer:'waiting',
       login_uname_error:'',
       login_pass_error:'',
       register_uname_error:'',
@@ -100,6 +105,16 @@ export default {
     changeRegisterForm: function () { return _.debounce(validateRegister.bind(this), 300)() },
     sendLogin: function () { console.log(this); if (validateLogin.bind(this)()) { this.$refs.loginForm.submit() } },
     sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
+  },
+  watch:{
+    isConnectedToServer:function(to , from){
+      // debugger
+      console.log("connection status",to)
+    }
+  },
+  mounted(){
+    const vm = this;
+    usersAPI.isConnectedToServer((obj)=>{console.log(obj);vm.isConnectedToServer="success"},()=>{vm.isConnectedToServer="error"})
   }
 }
 </script>

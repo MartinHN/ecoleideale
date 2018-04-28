@@ -1,9 +1,9 @@
-
-class ForumAPI {
-  constructor () {
-    this.url = 'http://127.0.0.1:3000/api/forum'
+class UsersAPI{
+  constructor(){
+    this.url = 'http://127.0.0.1:3000/api/user'
   }
-  emitCmd (path, args, cb) {
+
+  emitCmd(path, args, cb,err){
     var xhr = new XMLHttpRequest()
     var fullURL = this.url + path
     if (args) {
@@ -14,27 +14,24 @@ class ForumAPI {
       }
     }
     xhr.open('GET', fullURL)
-    xhr.onload = function () {
-    var r = xhr.responseText
+    xhr.onload =  ()=> {
+      var r = xhr.responseText
       var res = (r && r[0]==='{')? JSON.parse(r):r;
-      // console.log(obj)
       cb(res)
     }
     xhr.onerror = (e)=>{err(e)}
     xhr.ontimeout=(e)=>{err(e)}
+
     xhr.send()
+    
+  }
+
+  isConnectedToServer(success,err){
+    this.emitCmd("/ping", null,success,err);
   }
 
 
-  init () {
-
-  }
-
-  close () {
-
-  }
 }
+const usersAPI = new  UsersAPI()
 
-const forumAPI = new ForumAPI()
-
-export default forumAPI
+export default usersAPI
