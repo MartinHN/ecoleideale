@@ -30,7 +30,7 @@ collections:
       - {label: "Author", name: "author", widget: "string"}
       - {label: "Body", name: "body", widget: "markdown"}
 
-    - name: "propositions" # Used in routes, e.g., /admin/collections/blog
+  - name: "propositions" # Used in routes, e.g., /admin/collections/blog
     label: "propositions" # Used in the UI
     folder: "src/md/propositions" # The path to the folder where the documents are stored
     create: true # Allow users to create new documents in this collection

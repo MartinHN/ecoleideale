@@ -47,7 +47,7 @@
 
 <script>
 
-import _ from  'lodash'
+import debounce from  'lodash.debounce'
 import usersAPI from '@/api/users'
 
 const checkMinLength = function (s) {
@@ -101,8 +101,8 @@ export default {
     }
   },
   methods: {
-    changeLoginForm: function () { return _.debounce(validateLogin.bind(this), 300)() },
-    changeRegisterForm: function () { return _.debounce(validateRegister.bind(this), 300)() },
+    changeLoginForm: function () { return debounce(validateLogin.bind(this), 300)() },
+    changeRegisterForm: function () { return debounce(validateRegister.bind(this), 300)() },
     sendLogin: function () { console.log(this); if (validateLogin.bind(this)()) { this.$refs.loginForm.submit() } },
     sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
   },
