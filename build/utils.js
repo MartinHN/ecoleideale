@@ -1,9 +1,9 @@
 'use strict'
 const path = require('path')
 const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const packageConfig = require('../package.json')
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 exports.assetsPath = function (_path) {
   const assetsSubDirectory = process.env.NODE_ENV === 'production'
     ? config.build.assetsSubDirectory
@@ -28,6 +28,8 @@ exports.cssLoaders = function (options) {
       sourceMap: options.sourceMap
     }
   }
+
+
 
   // generate loader string to be used with extract text plugin
   function generateLoaders (loader, loaderOptions) {

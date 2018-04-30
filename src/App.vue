@@ -20,7 +20,7 @@ export default {
 <style lang="scss">
 // Import Bulma's core
 
-@import "~buefy/node_modules/bulma/sass/utilities/_all";
+@import "~bulma/sass/utilities/_all";
 
 // Set your colors
 $primary: #BE0004;
@@ -49,7 +49,7 @@ $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
 // Import Bulma and Buefy styles
-@import "buefy/node_modules/bulma";
+@import "bulma";
 @import "~buefy/src/scss/buefy";
 
 #router-view{

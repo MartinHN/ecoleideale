@@ -1,5 +1,6 @@
 <template>
-  <h1 class="hello">Contact</h1>
+  <h1 id="main-contact">Contact</h1>
+  
 </template>
 
 <script>

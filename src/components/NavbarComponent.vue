@@ -34,7 +34,6 @@
           </div>
         </div>
 
-        
       </div>
 
     </nav>
@@ -48,9 +47,10 @@
 </template>
 
 <script>
-import share from "./Share.vue"
+import share from './Share.vue'
 import Vue from 'vue'
 import Login from './LoginComponent'
+import Buefy from 'buefy'
 
 const customLink = Vue.component('custom-link', {
   template: `<router-link :to="to" class="navbar-item" :class="{ 'is-active': ($parent.path==to) }" >
@@ -58,35 +58,36 @@ const customLink = Vue.component('custom-link', {
   </router-link>
   `,
   props: {
-    to: String,
+    to: String
   },
-  methods:{
+  methods: {
     click: function () {
       console.log(this.to)
     }
   }
-});
+})
 
+const modalComp = Vue.component('b-modal', Buefy.Modal);
 export default {
-  components:{share,customLink,Login},
+  components: {share, customLink, Login},
   data () {
     return {
-      isShowingLogin:false,
-      loggedIn:false,
-      username:"johny",
+      isShowingLogin: false,
+      loggedIn: false,
+      username: 'johny',
       showNav: false,
-      path:""
+      path: ''
     }
   },
   updated () {
     console.log('update nav')
   },
-  watch:{
-    $route (to, from){
-      this.path=to.name
+  watch: {
+    $route (to, from) {
+      this.path = to.name
     }
   }
-  
+
 }
 </script>
 
@@ -109,7 +110,7 @@ button{
 }
 nav{
   height: 10vh;
-  min-height: 10vh; 
+  min-height: 10vh;
 }
 .navbar-brand{
   min-height: 9vh; /*????*/

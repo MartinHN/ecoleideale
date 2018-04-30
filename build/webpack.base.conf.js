@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+const { VueLoaderPlugin } = require('vue-loader')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -10,7 +11,7 @@ function resolve (dir) {
 
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
-  loader: 'eslint-loader',
+  use: 'eslint-loader',
   enforce: 'pre',
   include: [resolve('src'), resolve('test')],
   options: {
@@ -22,7 +23,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: './src/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -35,7 +36,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
   module: {
@@ -43,7 +44,7 @@ module.exports = {
       ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
-        loader: 'vue-loader',
+        loader:'vue-loader',
         options: vueLoaderConfig
       },
       {
@@ -69,15 +70,15 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
-        loader: 'url-loader',
+        loader:'url-loader',
         options: {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
       },
       {
-         test: /\.md$/,
-         use: [ 'json-loader', 'front-matter' ]
+        test: /\.md$/,
+        use: [ {loader:'json-loader'}, {loader:'front-matter'} ]
       }
     ]
   },
@@ -92,5 +93,8 @@ module.exports = {
     net: 'empty',
     tls: 'empty',
     child_process: 'empty'
-  }
+  },
+  plugins: [
+    new VueLoaderPlugin()
+  ]
 }

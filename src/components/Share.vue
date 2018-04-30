@@ -51,9 +51,9 @@ export default {
     FontAwesomeIcon
 
   },
-  data (){
+  data () {
     return {
-      iconSize:"2x"
+      iconSize: '2x'
     }
   },
   computed: {
@@ -67,7 +67,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
-
 
 i{
   display: inline-block;

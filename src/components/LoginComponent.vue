@@ -25,7 +25,7 @@
         </form>
         <button @click="sendLogin" @touch="sendLogin" class="button validateButton" >se connecter</button>
       </div>
-  
+
       <div class="column">
         <h3 class="title is-8">je crée un compte</h3>
         <form ref="registerForm" id="registerForm" :action="loginServer" class="formInputs" method="post">
@@ -42,33 +42,30 @@
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
 
-import debounce from  'lodash.debounce'
 import usersAPI from '@/api/users'
+var debounce = require('lodash.debounce')
 
 const checkMinLength = function (s) {
   if (s === '') { return 'veuillez renseigner ce champ' }
-    if (s.length < 4) { return 'champ trop court' }
-      return ''
-  }
+  if (s.length < 4) { return 'champ trop court' }
+  return ''
+}
 
 // const checkPassword = function (s) {
-
 // }
 
 var validateLogin = function () {
   var vm = this
   // console.log(vm)
   const obj = vm.$refs.loginid
-  
+
   var error = checkMinLength(obj.value)
 
-
-  vm.login_uname_error= error;
+  vm.login_uname_error = error
 
   var isValid = true
   isValid &= (error === '')
@@ -80,7 +77,7 @@ const validateRegister = function () {
   // console.log(vm)
   const obj = vm.$refs.register_uname
   var error = checkMinLength(obj.value)
-  vm.register_uname_error = error;
+  vm.register_uname_error = error
 
   var isValid = true
   isValid &= (error === '')
@@ -90,13 +87,12 @@ const validateRegister = function () {
 export default {
   data () {
     return {
-      loginServer :usersAPI.url,
-      isConnectedToServer:'waiting',
-      login_uname_error:'',
-      login_pass_error:'',
-      register_uname_error:'',
-      register_pass_error:'',
-
+      loginServer: usersAPI.url,
+      isConnectedToServer: 'waiting',
+      login_uname_error: '',
+      login_pass_error: '',
+      register_uname_error: '',
+      register_pass_error: ''
 
     }
   },
@@ -106,15 +102,15 @@ export default {
     sendLogin: function () { console.log(this); if (validateLogin.bind(this)()) { this.$refs.loginForm.submit() } },
     sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
   },
-  watch:{
-    isConnectedToServer:function(to , from){
+  watch: {
+    isConnectedToServer: function (to, from) {
       // debugger
-      console.log("connection status",to)
+      console.log('connection status', to)
     }
   },
-  mounted(){
-    const vm = this;
-    usersAPI.isConnectedToServer((obj)=>{console.log(obj);vm.isConnectedToServer="success"},()=>{vm.isConnectedToServer="error"})
+  mounted () {
+    const vm = this
+    usersAPI.isConnectedToServer((obj) => { console.log(obj); vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
   }
 }
 </script>
@@ -122,4 +118,4 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-  </style>
+</style>

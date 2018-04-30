@@ -2,12 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Buefy from 'buefy'
-// import 'buefy/lib/buefy.css'
+// import Buefy from 'buefy'
+
 import App from './App'
 import router from './router'
 
-Vue.use(Buefy)
+// Vue.use(Buefy)
 Vue.use(Vuex)
 
 Vue.config.productionTip = false
@@ -15,14 +15,14 @@ Vue.config.productionTip = false
 const store = new Vuex.Store({
   state: {
     loggedIn: false,
-    user:{}
+    user: {}
   },
   mutations: {
     doLogin (state) {
-      state.loggedIn = true;
+      state.loggedIn = true
     },
-    doLogout(state){
-      state.loggedIn = false;
+    doLogout (state) {
+      state.loggedIn = false
     }
 
   }
