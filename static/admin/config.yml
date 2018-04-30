@@ -28,6 +28,7 @@ collections:
       - {label: "Layout", name: "layout", widget: "hidden", default: "peer-comment"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Author", name: "author", widget: "string"}
+      - {label: "Photo", name: "photo", widget: "image", required: false}
       - {label: "Body", name: "body", widget: "markdown"}
 
   - name: "propositions" # Used in routes, e.g., /admin/collections/blog
