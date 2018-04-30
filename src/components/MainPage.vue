@@ -5,7 +5,7 @@
 
       <div id="slidersContainers">
         <div id="comment-box" class="box">
-          <carousel  :per-page="1" autoplay mouse-drag :autoplayTimeout="4000" :paginationEnabled="false">
+          <carousel  :per-page="1" autoplay autoplayHoverPause navigationEnabled mouse-drag :autoplayTimeout="4000" :paginationEnabled="false">
             <slide v-for="s of comments" :key="s.id">
 
 <!--               <h2>{{s.title}}</h2>
@@ -39,7 +39,7 @@
           </carousel>
         </div>
         <div id="propositions-box" class="box">
-          <carousel :per-page="1" autoplay mouse-drag :autoplayTimeout="5000" :paginationEnabled="false">
+          <carousel :per-page="1" autoplay autoplayHoverPause  navigationEnabled mouse-drag :autoplayTimeout="5000" :paginationEnabled="false">
             <slide v-for="s of propositions" :key="s.id">
               <h2>{{s.number}}. {{s.parsedTitle}}</h2>
               <div v-html="s.__content"></div>
@@ -95,7 +95,7 @@ export default {
 }
 
 #slidersContainers{
-  flex:1 1 auto;
+  flex:1 1 450px;
   
   display: flex;
   flex-direction:row;
@@ -120,6 +120,10 @@ export default {
 .card{
   background-color: transparent;
 }
-
+.VueCarousel{
+  height: 100%;
+  display: block;
+  overflow-y: 1;
+}
 
 </style>

@@ -3,7 +3,7 @@
   <div>
     <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <router-link class="navbar-item" :to="{name:'MainPage'}" ><img src="@/assets/logo_small.png" href="/"></router-link>
+        <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img src="@/assets/logo_small.png" href="/"></router-link>
 
         <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
@@ -116,12 +116,14 @@ nav{
   min-height: 9vh; /*????*/
   /*height:100%;*/
 }
-img{
-  display: block;
-  /*margin: 0 auto;*/
-  max-height: 7vh;
+#logo-main-page >img{
+
+  max-height: 10vh;
 }
 
+#logo-main-page {
+  max-height: 9vh;
+}
 /*
 a {
   color: #222222;

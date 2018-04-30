@@ -1,11 +1,17 @@
 <template>
+  <div>
   <h1 class="hello">Ressources</h1>
+  <div v-html="content.__content"></div>
+</div>
 </template>
 
 <script>
+const resourcesObj = require('@/md/Resources.md')
 export default {
   data () {
-    return {}
+    return {
+      content:resourcesObj,
+    }
   }
 }
 </script>
