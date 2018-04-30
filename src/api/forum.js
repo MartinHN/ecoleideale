@@ -3,7 +3,7 @@ class ForumAPI {
   constructor () {
     this.url = 'http://127.0.0.1:3000/api/forum'
   }
-  emitCmd (path, args, cb) {
+  emitCmd (path, args, cb,err) {
     var xhr = new XMLHttpRequest()
     var fullURL = this.url + path
     if (args) {
@@ -20,8 +20,9 @@ class ForumAPI {
       // console.log(obj)
       cb(res)
     }
-    xhr.onerror = (e)=>{err(e)}
-    xhr.ontimeout=(e)=>{err(e)}
+    const errf = err || function(e){console.error('forum api error',e)}
+    xhr.onerror = (e)=>{errf(e)}
+    xhr.ontimeout=(e)=>{errf(e)}
     xhr.send()
   }
 

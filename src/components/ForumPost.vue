@@ -16,16 +16,11 @@
       </div>
       <div class="media-content">
         <p class="title is-4">{{postTitle}}</p>
-        <p class="subtitle is-6">@johnsmith</p>
+        <p class="subtitle is-6">@{{postAuthor}}</p>
       </div>
     </div>
 
     <div class="content" v-html="content" style="float:left">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-      Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-      <a href="#">#css</a> <a href="#">#responsive</a>
-      <br>
-      <!-- <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> -->
     </div>
   </div>
 </div>
@@ -48,6 +43,7 @@ export default {
   data () {
     return {
       postTitle: null,
+      postAuthor:"john",
       content: 'none'
     }
   },
@@ -63,6 +59,7 @@ export default {
         if (o) {
           // if(self.postTitle != o.title){console.error("wrong content")}
           _self.postTitle = o.title
+          _self.postAuthor = o.author
           if (o.content) { o.content = replacelbr(o.content) }
 
           _self.content = o.content
