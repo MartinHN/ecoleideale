@@ -13,8 +13,8 @@
       </div>
       <div class="navbar-menu" :class="{ 'is-active': showNav }">
         <div class="navbar-end" @click="showNav=false">
-          <custom-link to='Projet'>QUOI?</custom-link>
-          <custom-link to='Resources'>Comment?</custom-link>
+          <custom-link to='Projet'>Le projet</custom-link>
+          <custom-link to='Resources'>Resources</custom-link>
           <custom-link to='FAQ'>FAQ</custom-link>
           <custom-link to='Presse'>Presse</custom-link>
           <custom-link to='Contact'>Contact</custom-link>
@@ -67,7 +67,7 @@ const customLink = Vue.component('custom-link', {
   }
 })
 
-const modalComp = Vue.component('b-modal', Buefy.Modal);
+const modalComp = Vue.component(Buefy.Modal.name, Buefy.Modal); 
 export default {
   components: {share, customLink, Login},
   data () {

@@ -3,10 +3,10 @@
     <h1 id="faq-container">FAQ</h1>
 
     <div v-for="f of faqs" class="toc">
-      <a class="is-primary" @click='scrollMeTo(f.attributes.title)'>{{f.attributes.title}}</a>
+      <a class="is-primary" @click='scrollMeTo(f.title)'>{{f.title}}</a>
     </div>
     <hr/>
-    <faq-elem v-for="f of faqs" :key="f.attributes.title" v-bind="f" :ref="f.attributes.title">
+    <faq-elem v-for="f of faqs" :key="f.title" v-bind="f" :ref="f.title">
 
     </faq-elem>
   </div>
@@ -18,7 +18,7 @@ var TWEEN = require('@tweenjs/tween.js');
 
 var FAQElem = Vue.component('faq-elem',{
 
-  props:['attributes','body'],
+  props:['title','__content'],
   data(){
     return {
       flash:1
@@ -43,7 +43,7 @@ var FAQElem = Vue.component('faq-elem',{
       
     }
   },
-  template : '<div> <h1 :style="{opacity:flash}" style={background-color:red} >{{attributes.title}}</h1><p>{{body}}</p> </div>'
+  template : '<div> <h1 :style="{opacity:flash}" style={background-color:red} >{{title}}</h1><p v-html="__content"></p> </div>'
 })
 
 var mdObj = {}
@@ -57,6 +57,9 @@ export default {
     }
   },
   components:{FAQElem},
+  mounted(){
+    console.log(this.faqs)
+  },
   methods: {
     scrollMeTo: function (refName) {
       const element = this.$refs[refName][0]
