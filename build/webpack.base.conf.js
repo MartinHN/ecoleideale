@@ -78,7 +78,7 @@ module.exports = {
       },
       {
         test: /\.md$/,
-        use: [ {loader:'json-loader'}, {loader:'front-matter'} ]
+        loader:'markdown-with-front-matter-loader'
       }
     ]
   },

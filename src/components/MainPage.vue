@@ -7,18 +7,18 @@
         <div id="comment-box" class="box">
           <carousel  :per-page="1" autoplay mouse-drag :paginationEnabled="false">
             <slide v-for="s of comments" :key="s.id">
-              <h2>{{s.attributes.title}}</h2>
-              <div>{{s.body}}</div>
-              <em>{{s.attributes.author}}</em>
+              <h2>{{s.title}}</h2>
+              <div v-html="s.__content"></div>
+              <em>{{s.author}}</em>
             </slide>
           </carousel>
         </div>
         <div id="propositions-box" class="box">
           <carousel :per-page="1" autoplay mouse-drag :paginationEnabled="false">
             <slide v-for="s of propositions" :key="s.id">
-              <h2>{{s.number}}. {{s.attributes.title}}</h2>
-              <div>{{s.body}}</div>
-              <em>{{s.attributes.author}}</em>
+              <h2>{{s.number}}. {{s.title}}</h2>
+              <div v-html="s.__content"></div>
+              <em>{{s.author}}</em>
             </slide>
           </carousel>
         </div>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+
 const CommentMdObj = {}
 function importAll (r,obj) {r.keys().forEach(key => obj[key] = r(key))}
 importAll(require.context('@/md/peer-comments/', true, /\.md$/),CommentMdObj)
@@ -43,6 +44,9 @@ export default {
       ,
       propositions:propositionsApi.getPropositions()
     }
+  },
+  mounted(){
+    console.log(CommentMdObj)
   }
 }
 </script>
