@@ -1,11 +1,17 @@
 <template>
+  <div>
   <h1 class="hello">Presse</h1>
+  <div v-html="content.__content"></div>
+</div>
 </template>
 
 <script>
+const mdObj = require('@/md/Presse.md')
 export default {
   data () {
-    return {}
+    return {
+      content:mdObj,
+    }
   }
 }
 </script>

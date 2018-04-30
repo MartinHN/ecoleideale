@@ -1,13 +1,16 @@
 <template>
-  <h1 id="main-contact">Contact</h1>
-  
+  <div>
+  <h1 class="hello">Contact</h1>
+  <div v-html="content.__content"></div>
+</div>
 </template>
 
 <script>
+const mdObj = require('@/md/Contact.md')
 export default {
   data () {
     return {
-      
+      content:mdObj,
     }
   }
 }

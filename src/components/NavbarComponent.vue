@@ -105,6 +105,7 @@ button{
 .navbar-end{
   /*background:red;*/
   margin-left: 0;
+  text-align: center;
   justify-content: space-between;
   width:100%;
 }
