@@ -33,14 +33,15 @@ export default {
   methods: {
     fetchData: function (parent) {
       var _self = parent || this
-      forumAPI.emitCmd('/list', null, (postsOb) => {
+      forumAPI.emitCmd('/list', null,null, (postsOb) => {
         if (postsOb.list) {
           _self.posts = postsOb.list
           console.log('post lists', _self.posts)
         } else {
           console.log('no posts parsed')
         }
-      })
+      },
+      )
     }
 
   },

@@ -55,7 +55,7 @@ export default {
       // console.log("s",self)
       var id = _self.id
       console.log(id)
-      forumAPI.emitCmd('/get', {id: id}, (o) => {
+      forumAPI.emitCmd('/get', {id: id},null, (o) => {
         if (o) {
           // if(self.postTitle != o.title){console.error("wrong content")}
           _self.postTitle = o.title

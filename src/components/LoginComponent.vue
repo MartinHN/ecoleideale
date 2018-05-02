@@ -8,7 +8,7 @@
     <div v-else class="columns">
       <div class="column">
         <h3 class="title is-8">j'ai déjà un compte</h3>
-        <form ref="loginForm" id="loginForm" :action="loginServer" method="post" class="formInputs">
+        <form ref="loginForm" id="loginForm" :action="loginServer" class="formInputs">
           <div class="field">
             <div class="control">
               <input ref="loginid" type="text" class="input" name="loginid" placeholder="mail ou nom d'utilisateur" @keyup="changeLoginForm" autocomplete="email" />
@@ -18,7 +18,7 @@
 
           <div class="field">
             <div class="control">
-              <input ref="login_pass" type="password" class="input" name="logpass" placeholder="mot de passe" @keyup="changeLoginForm" autocomplete="current-password" />
+              <input ref="logpass" type="password" class="input" name="logpass" placeholder="mot de passe" @keyup="changeLoginForm" autocomplete="current-password" />
             </div>
             <p class="help is-danger">{{login_pass_error}}</p>
           </div>
@@ -51,16 +51,15 @@ var debounce = require('lodash.debounce')
 
 const checkMinLength = function (s) {
   if (s === '') { return 'veuillez renseigner ce champ' }
-  if (s.length < 4) { return 'champ trop court' }
-  return ''
-}
+    if (s.length < 4) { return 'champ trop court' }
+      return ''
+  }
 
 // const checkPassword = function (s) {
 // }
 
 var validateLogin = function () {
   var vm = this
-  // console.log(vm)
   const obj = vm.$refs.loginid
 
   var error = checkMinLength(obj.value)
@@ -74,7 +73,6 @@ var validateLogin = function () {
 
 const validateRegister = function () {
   var vm = this
-  // console.log(vm)
   const obj = vm.$refs.register_uname
   var error = checkMinLength(obj.value)
   vm.register_uname_error = error
@@ -92,25 +90,62 @@ export default {
       login_uname_error: '',
       login_pass_error: '',
       register_uname_error: '',
-      register_pass_error: ''
+      register_pass_error: '',
+      serverMessage:''
 
     }
   },
   methods: {
     changeLoginForm: function () { return debounce(validateLogin.bind(this), 300)() },
     changeRegisterForm: function () { return debounce(validateRegister.bind(this), 300)() },
-    sendLogin: function () { console.log(this); if (validateLogin.bind(this)()) { this.$refs.loginForm.submit() } },
-    sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
-  },
-  watch: {
-    isConnectedToServer: function (to, from) {
+    sendLogin: function () {  
+      const vm = this
+      if (validateLogin.bind(this)()) {
+       // this.$refs.loginForm.submit()
+       // const fo2 = document.getElementById("loginForm")
+       const fo = vm.$refs.loginForm;
+       const fd = new FormData();
+       const rawData = {'loginid':vm.$refs.loginid.value,'logpass':vm.$refs.logpass.value}
+       for(var d in rawData){
+        fd.append(d,rawData[d]) 
+       }
+       // console.log(vm.$refs.loginid.value,fo,rawData,fd)
+       usersAPI.tryToLogin(rawData,
+        (user)=>{
+          this.$toast.open({
+                    message: 'connecté comme '+user.name,
+                    type: 'is-success'
+                })
+          vm.$store.commit('doLogin',user);
+          vm.$parent.close()
+
+        },
+        (err)=>{
+          this.$toast.open({
+                    message: err.servermsg,
+                    type: 'is-danger'
+                })
+        }
+        ) 
+     } 
+   },
+   sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
+ },
+ watch: {
+  isConnectedToServer: function (to, from) {
       // debugger
       console.log('connection status', to)
     }
   },
   mounted () {
     const vm = this
-    usersAPI.isConnectedToServer((obj) => { console.log(obj); vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
+    usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
+    // check error in redirections
+    var url = window.location.pathname
+    var getQuery = url.split('?')[1]
+    if(getQuery){
+      var params = getQuery.split('&') 
+    }
   }
 }
 </script>

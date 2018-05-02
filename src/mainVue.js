@@ -14,17 +14,24 @@ Vue.config.productionTip = false
 
 const store = new Vuex.Store({
   state: {
-    loggedIn: false,
-    user: {}
+    user: {name:'',mail:''}
   },
   mutations: {
-    doLogin (state) {
-      state.loggedIn = true
+    doLogin (state,payload) {
+      console.log(payload)
+      state.user.name = payload.name
+      state.user.mail = payload.mail
+
     },
     doLogout (state) {
-      state.loggedIn = false
+      state.user.name='';
+      state.user.mail='';
     }
-
+  },
+  getters:{
+    isLoggedIn : state=>{
+      return state.user && state.user.name!=''
+    }
   }
 })
 

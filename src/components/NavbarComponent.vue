@@ -22,13 +22,11 @@
           <div class="navbar-item">
             <share></share>
             <div style="margin-left:10px">
-              <template v-if="!$store.state.loggedIn">
+              <template v-if="!$store.getters.isLoggedIn">
                 <button  class="button is-small" @click="isShowingLogin=true">Login</button>
               </template>
               <template v-else>
-                <span>bonjour</span>
-                <br/>
-                <span>{{username}}</span>
+                <button  class="button is-small" @click="$store.commit('doLogout')">Logout ({{username}})</button>
               </template>
             </div>
           </div>
@@ -73,14 +71,19 @@ export default {
   data () {
     return {
       isShowingLogin: false,
-      loggedIn: false,
-      username: 'johny',
+      
       showNav: false,
       path: ''
     }
   },
+  computed:{
+    username:function(){
+    return this.$store.state.user.name;
+  }
+
+},
   updated () {
-    console.log('update nav')
+    // console.log('update nav')
   },
   watch: {
     $route (to, from) {
