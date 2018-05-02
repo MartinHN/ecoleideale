@@ -109,6 +109,7 @@ export default {
   min-height: 30vh;
   margin: 10px;
   flex:1 1 450px;
+  max-width: 95vw;
 }
 
 #propositions-box{
