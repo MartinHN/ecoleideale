@@ -7,13 +7,28 @@ import FAQ from '@/components/FAQComponent'
 import Presse from '@/components/PresseComponent'
 import Contact from '@/components/ContactComponent'
 import Admin from '@/components/Admin'
-import Login from '@/components/LoginComponent'
-import ForumPostList from '@/components/ForumPostList'
+// import Login from '@/components/LoginComponent'
+// import Vote from  '@/components/PropositionVote'
+// import ForumPostList from '@/components/ForumPostList'
+import PropositionsOverview from '@/components/PropositionsOverview'
 
 import NotFoundComponent from '@/components/NotFoundComponent'
 
 Vue.use(Router)
-
+function loadAsync(modulePath){
+return ()=>({
+  component:import(''+modulePath),
+  // // A component to use while the async component is loading
+  // loading: null,//LoadingComponent,
+  // // A component to use if the load fails
+  // error: null,
+  // // Delay before showing the loading component. Default: 200ms.
+  // delay: 200,
+  // // The error component will be displayed if a timeout is
+  // // provided and exceeded. Default: Infinity.
+  // timeout: 3000
+})
+}
 const router = new Router({
   mode: 'history',
   routes: [
@@ -23,9 +38,11 @@ const router = new Router({
     { path: '/FAQ', name: 'FAQ', component: FAQ },
     { path: '/Presse', name: 'Presse', component: Presse },
     { path: '/Contact', name: 'Contact', component: Contact },
-    { path: '/Forum', name: 'Forum', component: ForumPostList },
+    { path: '/Forum', name: 'Forum', component:() => import('@/components/ForumPostList').then(m => m.default) },
     { path: '/admin', name: 'admin', component: Admin },
-    { path: '/login', name: 'login', component: Login },
+    { path: '/login', name: 'login', component:() => import('@/components/LoginComponent').then(m => m.default) },
+    {path: '/vote',name:'vote',component:() => import('@/components/PropositionVote').then(m => m.default)},
+    {path: '/propositions',name:'propositions',component:PropositionsOverview},
     { path: '*', component: NotFoundComponent }
   ]
 })

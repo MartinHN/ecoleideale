@@ -2,7 +2,7 @@
 layout: peer-comment
 title: 3. plus de devoirs
 author: johny johny
-tags: education, developpement durable
+tags: ["education", "developpement durable"]
 ---
 tout est dans le titre sqdlknsdmkqsdm
 

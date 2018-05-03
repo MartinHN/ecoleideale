@@ -35,6 +35,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       name: true,
       cacheGroups: {
         default: {
+          name: 'async',
           chunks: 'async',
           minSize: 30000,
           minChunks: 2,

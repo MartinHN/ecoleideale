@@ -1,7 +1,7 @@
 <template>
   <div >
     <div id="mainpage">
-      <button id="participate" class="button is-primary" @click=""  > Je Participe </button>
+      <button id="participate" class="button is-primary" @click="$router.push('vote')"  > Je Participe </button>
 
       <div id="slidersContainers">
         <div id="comment-box" class="box">
@@ -32,7 +32,7 @@
                     </div>
                   </div>
 
-                  <div class="content" v-html="s.__content"></div>
+                  <div v-html="s.__content"></div>
                 </div>
               <!-- </div> -->
             </slide>
@@ -83,34 +83,49 @@ export default {
   flex-direction: column;
   /*margin-top: 10px;*/
   height:90vh; /*fullscreen is 90%ofvh (navbar=10vh)*/
-
+  align-content: center;
+  width: 100%;
+  
 }
+
+pre, code{
+  padding:0;
+  max-width: 100%;
+}
+
 #participate{
 
   /*width:100%;*/
-  
   flex:1 1 40vh;
   margin: 10px;
   background-color: #BE0004
 }
 
 #slidersContainers{
-  flex:1 1 450px;
-  
+  flex:1 1 300px;
+  /*margin:10px;*/
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;
   /*justify-content: space-between;*/
-  align-items:stretch;
-  align-content:stretch;
+  /*align-items:stretch;
+  align-content:stretch;*/
   
 }
 #slidersContainers > .box{
-  min-height: 30vh;
-  margin: 10px;
-  flex:1 1 450px;
-  max-width: 95vw;
+  margin:10px;
+  box-sizing: border-box;
+  /*min-height: 30vh;*/
+  /*flex:1 1 450px;*/
+  flex-basis: 100%;
+  max-width: 100vw;
+  
 }
+/*@media screen and (min-width: 800px) {
+  #slidersContainers > .box {
+    flex: 1;
+  }
+}*/
 
 #propositions-box{
   background-color: #5A89E6
@@ -123,8 +138,8 @@ export default {
 }
 .VueCarousel{
   height: 100%;
-  display: block;
-  overflow-y: 1;
+  /*display: block;*/
+  /*overflow-y: 1;*/
 }
 
 </style>

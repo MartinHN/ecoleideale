@@ -9,21 +9,16 @@
       <div class="column">
         <h3 class="title is-8">j'ai déjà un compte</h3>
         <form ref="loginForm" id="loginForm" :action="loginServer" class="formInputs">
-          <div class="field">
-            <div class="control">
-              <input ref="loginid" type="text" class="input" name="loginid" placeholder="mail ou nom d'utilisateur" @keyup="changeLoginForm" autocomplete="email" />
-            </div>
+              <input ref="loginid" type="text" class="input" name="loginid" placeholder="mail ou nom d'utilisateur" @keyup="changeLoginForm" autocomplete="username" />
             <p class="help is-danger">{{login_uname_error}}</p>
-          </div>
 
-          <div class="field">
-            <div class="control">
               <input ref="logpass" type="password" class="input" name="logpass" placeholder="mot de passe" @keyup="changeLoginForm" autocomplete="current-password" />
-            </div>
             <p class="help is-danger">{{login_pass_error}}</p>
+          <div class="buttons is-centered">
+            <button type="submit" @click="sendLogin" @touch="sendLogin" class="button validateButton" >se connecter</button>
           </div>
         </form>
-        <button @click="sendLogin" @touch="sendLogin" class="button validateButton" >se connecter</button>
+
       </div>
 
       <div class="column">
@@ -37,8 +32,11 @@
           <div   ref="register_pass_err" class="error"/>
           <input ref="register_passConf" type="password" name="passConf" placeholder="confirmer mon mot de passe" @keyup="changeRegisterForm" autocomplete="current-password" class="input"/>
           <div   ref="register_passConf_err" class="error"/>
+          <div class="buttons is-centered">
+            <button type="submit" name="register" @click="sendRegister" @touch="sendRegister" class="button validateButton" >s'inscrire</button>
+          </div>
         </form>
-        <button  name="register" @click="sendRegister" @touch="sendRegister" class="button validateButton" >s'inscrire</button>
+
       </div>
     </div>
   </div>
@@ -98,7 +96,8 @@ export default {
   methods: {
     changeLoginForm: function () { return debounce(validateLogin.bind(this), 300)() },
     changeRegisterForm: function () { return debounce(validateRegister.bind(this), 300)() },
-    sendLogin: function () {  
+    sendLogin: function (e) {  
+      if (e.preventDefault) e.preventDefault();
       const vm = this
       if (validateLogin.bind(this)()) {
        // this.$refs.loginForm.submit()
@@ -108,28 +107,31 @@ export default {
        const rawData = {'loginid':vm.$refs.loginid.value,'logpass':vm.$refs.logpass.value}
        for(var d in rawData){
         fd.append(d,rawData[d]) 
-       }
+      }
        // console.log(vm.$refs.loginid.value,fo,rawData,fd)
        usersAPI.tryToLogin(rawData,
         (user)=>{
           this.$toast.open({
-                    message: 'connecté comme '+user.name,
-                    type: 'is-success'
-                })
+            message: 'connecté comme '+user.name,
+            type: 'is-success'
+          })
           vm.$store.commit('doLogin',user);
           vm.$parent.close()
 
         },
         (err)=>{
           this.$toast.open({
-                    message: err.servermsg,
-                    type: 'is-danger'
-                })
+            message: err.servermsg,
+            type: 'is-danger'
+          })
         }
         ) 
      } 
    },
-   sendRegister: function () { if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } }
+   sendRegister: function (e) {
+   if (e.preventDefault) e.preventDefault();
+  if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } 
+}
  },
  watch: {
   isConnectedToServer: function (to, from) {

@@ -18,13 +18,13 @@
     <div>
 
       <network network="facebook" >
-        <font-awesome-icon :icon="$parent.fbIcon" :size="$parent.iconSize"/>
+        <font-awesome-icon :icon='["fab","facebook"]' :size="$parent.iconSize"/>
       </network>
       <network network="googleplus">
-        <font-awesome-icon :icon="$parent.googleIcon" :size="$parent.iconSize"/>
+        <font-awesome-icon :icon='["fab","google-plus"]' :size="$parent.iconSize"/>
       </network>
       <network network="twitter">
-        <font-awesome-icon :icon="$parent.twitterIcon" :size="$parent.iconSize"/>
+        <font-awesome-icon :icon='["fab","twitter"]' :size="$parent.iconSize"/>
       </network>
     </div>
   </sharet>
@@ -36,19 +36,21 @@
 
 import SocialSharing from 'vue-social-sharing'
 
+import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
-// import faCoffee from '@fortawesome/fontawesome-free-solid/faCoffee'
 import fbIconMod from '@fortawesome/fontawesome-free-brands/faFacebook'
 import googleIconMod from '@fortawesome/fontawesome-free-brands/faGooglePlus'
 import twitterIconMod from '@fortawesome/fontawesome-free-brands/faTwitter'
+
+fontawesome.library.add( fbIconMod,googleIconMod,twitterIconMod)
+
 
 // SocialSharing.components["network"] = customNetwork;
 SocialSharing.components['font-awesome-icon'] = FontAwesomeIcon
 
 export default {
   components: {
-    'sharet': SocialSharing,
-    FontAwesomeIcon
+    'sharet': SocialSharing
 
   },
   data () {
@@ -56,12 +58,7 @@ export default {
       iconSize: '2x'
     }
   },
-  computed: {
-    fbIcon () { return fbIconMod },
-    googleIcon () { return googleIconMod },
-    twitterIcon () { return twitterIconMod }
 
-  }
 }
 </script>
 

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div >
     <div id="mainpage">
       <button id="participate" class="button is-primary" @click=""  > Je Participe </button>
@@ -91,3 +91,4 @@ export default {
 
 
 </style>
+ -->

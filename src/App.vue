@@ -48,9 +48,12 @@ $link: $primary;
 $link-invert: $primary-invert;
 $link-focus-border: $primary;
 
+$modal-content-spacing-mobile: 100px;
+$modal-content-spacing-tablet:100px;
 // Import Bulma and Buefy styles
 @import "bulma";
 @import "~buefy/src/scss/buefy";
+
 
 #router-view{
   // height:auto;

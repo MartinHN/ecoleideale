@@ -3,20 +3,21 @@ class UsersAPI{
     this.url = 'http://127.0.0.1:3000/api/user'
   }
 
+
+
   emitCmd(type,path,args,headers,data,cb,err){
     var xhr = new XMLHttpRequest()
     var fullURL = this.url + path
-    if (args) {
-      var isStart = true
-      for (var a in args) {
-        if (isStart) { fullURL += '?'; isStart = false } else { fullURL += '&' }
-        fullURL += a + '=' + args[a]
-      }
+    if ( args && (Object.keys(args).length === 0)) {
+      fullURL += '?';
+      const al = [];for (var a in args) {al.push(a + '=' + args[a])}
+      fullURL+=al.join('&')
     }
     xhr.open(type, fullURL)
     xhr.onload =  ()=> {
       var r = xhr.responseText
       var res = (r && r[0]==='{')? JSON.parse(r):r;
+
       cb(res)
     }
     xhr.onerror = (e)=>{err(e)}
