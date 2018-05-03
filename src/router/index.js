@@ -7,9 +7,9 @@ import FAQ from '@/components/FAQComponent'
 import Presse from '@/components/PresseComponent'
 import Contact from '@/components/ContactComponent'
 import Admin from '@/components/Admin'
-// import Login from '@/components/LoginComponent'
-// import Vote from  '@/components/PropositionVote'
-// import ForumPostList from '@/components/ForumPostList'
+import Login from '@/components/LoginComponent'
+import Vote from  '@/components/PropositionVote'
+import ForumPostList from '@/components/ForumPostList'
 import PropositionsOverview from '@/components/PropositionsOverview'
 
 import NotFoundComponent from '@/components/NotFoundComponent'
@@ -38,10 +38,10 @@ const router = new Router({
     { path: '/FAQ', name: 'FAQ', component: FAQ },
     { path: '/Presse', name: 'Presse', component: Presse },
     { path: '/Contact', name: 'Contact', component: Contact },
-    { path: '/Forum', name: 'Forum', component:() => import('@/components/ForumPostList').then(m => m.default) },
+    { path: '/Forum', name: 'Forum', component: ForumPostList },
     { path: '/admin', name: 'admin', component: Admin },
-    { path: '/login', name: 'login', component:() => import('@/components/LoginComponent').then(m => m.default) },
-    {path: '/vote',name:'vote',component:() => import('@/components/PropositionVote').then(m => m.default)},
+    { path: '/login', name: 'login', component:Login },
+    {path: '/vote',name:'vote',component:Vote},
     {path: '/propositions',name:'propositions',component:PropositionsOverview},
     { path: '*', component: NotFoundComponent }
   ]

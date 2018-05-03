@@ -1,6 +1,6 @@
 {
   "name": "ecoleideale",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ecole ideale (vuejs)",
   "author": "Martin Hermant <martin.hermant@gmail.com>",
   "private": true,
@@ -21,6 +21,7 @@
     "@tweenjs/tween.js": "^17.2.0",
     "axios": "^0.18.0",
     "buefy": "^0.6.5",
+    "localforage": "^1.7.1",
     "lodash.debounce": "^4.0.8",
     "npm": "^6.0.0",
     "socketcluster-client": "^12.0.0",
