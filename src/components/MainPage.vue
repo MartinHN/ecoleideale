@@ -1,7 +1,7 @@
 <template>
   <div >
     <div id="mainpage">
-      <button id="participate" class="button is-primary" @click="$router.push('vote')"  > Je Participe </button>
+      <button id="participate" class="button is-primary" @click="$router.push('propositions')"  > Je Participe </button>
 
       <div id="slidersContainers">
         <div id="comment-box" class="box">

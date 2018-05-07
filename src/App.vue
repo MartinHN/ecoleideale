@@ -50,6 +50,12 @@ $link-focus-border: $primary;
 
 $modal-content-spacing-mobile: 100px;
 $modal-content-spacing-tablet:100px;
+
+
+// / for vote section
+$tabs-toggle-link-active-background-color: lightgray;
+$tabs-toggle-link-active-border-color: lightgray;
+// $tabs-boxed-link-active-background-color: lightgray;
 // Import Bulma and Buefy styles
 @import "bulma";
 @import "~buefy/src/scss/buefy";

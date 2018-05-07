@@ -1,15 +1,10 @@
 <!--NavbarComponent.vue-->
 <template>
   <div class="proposition">
-    <div class="card">
+    <div class="card" id="header">
 
-      <div class="card-content">
+      <div class="card-content" id="content-header">
         <div class="media">
-          <div class="media-left">
-            <figure class="image is-48x48">
-              <img src="@/assets/logo_small.png" alt="Placeholder image">
-            </figure>
-          </div>
           <div class="media-content">
             <p class="title is-4">{{title}}</p>
             <b-taglist>
@@ -20,6 +15,7 @@
 
         <div v-html="content" ></div>
       </div>
+      <img id="img-header" src="http://placeholder.pics/svg/300/DEDEDE/555555/image du vote"></img>
     </div>
     <div class="card vote">
       <div class="card-content">
@@ -120,13 +116,20 @@ export default {
 }
 </script>
 
-<style>
+<style scoped >
 
-.vote.card li.is-active a{
+#header {
+  display: flex;
+  flex-direction: row;
 
-  background-color: lightgray;
-  border-color: lightgray;
-
+}
+#content-header{
+  /*float:left;*/
+  flex: 1 1 75vw;
+}
+#img-header {
+  
+  flex: 1 1 25vw;
 }
 .column {
   /*display: block;*/

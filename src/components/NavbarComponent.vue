@@ -117,16 +117,16 @@ nav{
   min-height: 10vh;
 }
 .navbar-brand{
-  min-height: 9vh; /*????*/
+  min-height: 10vh; /*????*/
   /*height:100%;*/
 }
 #logo-main-page >img{
 
-  max-height: 10vh;
+  max-height: 9vh;
 }
 
 #logo-main-page {
-  max-height: 9vh;
+  max-height: 10vh;
 }
 /*
 a {

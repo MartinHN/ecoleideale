@@ -45,6 +45,7 @@
 <script>
 
 import usersAPI from '@/api/users'
+import query from '@/api/query'
 var debounce = require('lodash.debounce')
 
 const checkMinLength = function (s) {
@@ -143,11 +144,7 @@ export default {
     const vm = this
     usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
     // check error in redirections
-    var url = window.location.pathname
-    var getQuery = url.split('?')[1]
-    if(getQuery){
-      var params = getQuery.split('&') 
-    }
+    params = query.getCurrentArgs()
   }
 }
 </script>
