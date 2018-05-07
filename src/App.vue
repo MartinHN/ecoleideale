@@ -3,7 +3,7 @@
     <link rel="icon" type="image/png" href="../assets/logo_small.png" />
     <navbar-component/>
     <router-view id="router-view"/>
-    <footer-component/>
+    <!-- <footer-component/> -->
   </div>
 </template>
 
@@ -20,47 +20,52 @@ export default {
 <style lang="scss">
 // Import Bulma's core
 
-@import "~bulma/sass/utilities/_all";
+// @import "~bulma/sass/utilities/_all";
 
-// Set your colors
-$primary: #BE0004;
-$primary-invert: findColorInvert($primary);
-$twitter: #4099FF;
-$twitter-invert: findColorInvert($twitter);
+// // Set your colors
+// $primary: #BE0004;
+// $primary-invert: findColorInvert($primary);
+// $twitter: #4099FF;
+// $twitter-invert: findColorInvert($twitter);
 
-// Setup $colors to use as bulma classes (e.g. 'is-twitter')
-$colors: (
-    "white": ($white, $black),
-    "black": ($black, $white),
-    "light": ($light, $light-invert),
-    "dark": ($dark, $dark-invert),
-    "primary": ($primary, $primary-invert),
-    "info": ($info, $info-invert),
-    "success": ($success, $success-invert),
-    "warning": ($warning, $warning-invert),
-    "danger": ($danger, $danger-invert),
-    "twitter": ($twitter, $twitter-invert)
-);
-$navbar-item-color : "red";
-// $navbar-height: 7vh;
-// Links
-$link: $primary;
-$link-invert: $primary-invert;
-$link-focus-border: $primary;
+// // Setup $colors to use as bulma classes (e.g. 'is-twitter')
+// $colors: (
+//     "white": ($white, $black),
+//     "black": ($black, $white),
+//     "light": ($light, $light-invert),
+//     "dark": ($dark, $dark-invert),
+//     "primary": ($primary, $primary-invert),
+//     "info": ($info, $info-invert),
+//     "success": ($success, $success-invert),
+//     "warning": ($warning, $warning-invert),
+//     "danger": ($danger, $danger-invert),
+//     "twitter": ($twitter, $twitter-invert)
+// );
+// $navbar-item-color : "red";
+// // $navbar-height: 7vh;
+// // Links
+// $link: $primary;
+// $link-invert: $primary-invert;
+// $link-focus-border: $primary;
 
-$modal-content-spacing-mobile: 100px;
-$modal-content-spacing-tablet:100px;
-
-
-// / for vote section
-$tabs-toggle-link-active-background-color: lightgray;
-$tabs-toggle-link-active-border-color: lightgray;
-// $tabs-boxed-link-active-background-color: lightgray;
-// Import Bulma and Buefy styles
-@import "bulma";
-@import "~buefy/src/scss/buefy";
+// $modal-content-spacing-mobile: 100px;
+// $modal-content-spacing-tablet:100px;
 
 
+// // / for vote section
+// $tabs-toggle-link-active-background-color: lightgray;
+// $tabs-toggle-link-active-border-color: lightgray;
+// // $tabs-boxed-link-active-background-color: lightgray;
+// // Import Bulma and Buefy styles
+// @import "bulma";
+// @import "~buefy/src/scss/buefy";
+
+
+// @import 'vuetify/dist/vuetify.min.css'; // Ensure you are using css-loader
+$carousel-control-width:5%;
+$carousel-caption-width:90%;
+@import "bootstrap/scss/bootstrap.scss";
+@import 'bootstrap-vue/dist/bootstrap-vue.css';
 #router-view{
   // height:auto;
   min-height: 90vh;//calc( 100% - 3.25rem -10px ); /*7 vh in navbar*/

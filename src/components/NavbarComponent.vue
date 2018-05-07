@@ -1,62 +1,69 @@
 <!--NavbarComponent.vue-->
 <template>
   <div>
-    <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
+    <b-navbar toggleable type="light" variant="light" sticky role="navigation" aria-label="main navigation">
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <b-navbar-brand  color="primary">
+        <!-- <v-toolbar-side-icon @click="showNav = !showNav" aria-label="menu" aria-expanded="false"></v-toolbar-side-icon> -->
         <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img src="@/assets/logo_small.png" href="/"></router-link>
 
-        <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </div>
-      </div>
-      <div class="navbar-menu" :class="{ 'is-active': showNav }">
-        <div class="navbar-end" @click="showNav=false">
-          <custom-link to='Projet'>Le projet</custom-link>
-          <custom-link to='Resources'>Resources</custom-link>
-          <custom-link to='FAQ'>FAQ</custom-link>
-          <custom-link to='Presse'>Presse</custom-link>
-          <custom-link to='Contact'>Contact</custom-link>
-          <custom-link to='Forum'>Forum</custom-link>
-          <div class="navbar-item">
-            <share></share>
-            <div style="margin-left:10px">
-              <template v-if="!$store.getters.isLoggedIn">
-                <button  class="button is-small" @click="isShowingLogin=true">Login</button>
-              </template>
-              <template v-else>
-                <button  class="button is-small" @click="$store.commit('doLogout')">Logout ({{username}})</button>
-              </template>
+        </b-navbar-brand>
+
+        <b-collapse is-nav id="nav_collapse">
+
+          <b-navbar-nav class="ml-auto">
+            <custom-link to='Projet' text="Projet" />
+            <custom-link to='Resources' text="Resources"/>
+            <custom-link to='FAQ' text="FAQ"/>
+            <custom-link to='Presse' text="Press"/>
+            <custom-link to='Contact' text="Contact"/>
+            <custom-link to='Forum' text="Forum"/>
+            <div class="navbar-item">
+              <share></share>
+              <div style="margin-left:10px">
+                <template v-if="!$store.getters.isLoggedIn">
+                  <b-btn v-b-modal.loginComp size="sm">Login</b-btn>
+                </template>
+                <template v-else>
+                  <button  class="button is-small" @click="$store.commit('doLogout')">Logout ({{username}})</button>
+                </template>
+              </div>
+
             </div>
-          </div>
-        </div>
+          </b-navbar-nav>
+        </b-collapse>
 
-      </div>
+      </v-toolbar>
 
-    </nav>
-    <b-modal :active.sync="isShowingLogin">
-      <div class="box is-4by3">
-        <login/>
-      </div>
-    </b-modal>
+    </b-navbar>
 
-  </div>
+
+    <b-modal
+    lazy
+    id="loginComp">
+
+    <login/>
+
+  </b-modal>
+
+</div>
 </template>
 
 <script>
 import share from './Share.vue'
 import Vue from 'vue'
 import Login from './LoginComponent'
-import Buefy from 'buefy'
+
 
 const customLink = Vue.component('custom-link', {
-  template: `<router-link :to="to" class="navbar-item" :class="{ 'is-active': ($parent.path==to) }" >
-  <slot></slot>
-  </router-link>
+  template: `<b-nav-item href="#" :to="to" class="navbar-item" :class="{ 'is-active': ($parent.path==to) }" >
+  <b-btn variant="outline-danger" >{{text}}</b-btn>
+  
+  </b-nav-item>
   `,
   props: {
-    to: String
+    to: String,
+    text: String
   },
   methods: {
     click: function () {
@@ -65,12 +72,11 @@ const customLink = Vue.component('custom-link', {
   }
 })
 
-const modalComp = Vue.component(Buefy.Modal.name, Buefy.Modal); 
+
 export default {
   components: {share, customLink, Login},
   data () {
     return {
-      isShowingLogin: false,
       
       showNav: false,
       path: ''
@@ -78,10 +84,10 @@ export default {
   },
   computed:{
     username:function(){
-    return this.$store.state.user.name;
-  }
+      return this.$store.state.user.name;
+    }
 
-},
+  },
   updated () {
     // console.log('update nav')
   },
@@ -89,7 +95,7 @@ export default {
     $route (to, from) {
       this.path = to.name
     }
-  }
+  },
 
 }
 </script>

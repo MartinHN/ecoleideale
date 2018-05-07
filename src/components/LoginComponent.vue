@@ -3,7 +3,7 @@
     <!-- <h1> login </h1> -->
     <br/>
     <h1 v-if="isConnectedToServer=='error'"> pas de connection au server</h1>
-    <b-loading v-else-if="isConnectedToServer=='waiting'" :is-full-page="false" :active="true"> waiting</b-loading>
+    <!-- <loading v-else-if="isConnectedToServer=='waiting'" :is-full-page="false" :active="true"> waiting</loading> -->
 
     <div v-else class="columns">
       <div class="column">
@@ -144,7 +144,7 @@ export default {
     const vm = this
     usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
     // check error in redirections
-    params = query.getCurrentArgs()
+    const params = query.getCurrentArgs()
   }
 }
 </script>

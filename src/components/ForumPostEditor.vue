@@ -2,8 +2,8 @@
 <template>
   <div >
     <form id="forumPostEditor" ref="form" method="post" :action="posturl">
-      <b-input type="text" ref="title" name="title" placeholder="titre" />
-      <b-input type="textarea" ref="content" name="content" placeholder="contenu" />
+      <input type="text" ref="title" name="title" placeholder="titre" />
+      <b-form-textarea :rows="4" :max-rows="6" ref="content" name="content" placeholder="contenu" />
       <button type="submit" class="button"> ajout de post</button>
 
     </form>

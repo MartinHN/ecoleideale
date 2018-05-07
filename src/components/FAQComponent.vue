@@ -1,10 +1,10 @@
 <template>
   <div>
     <h1 id="faq-container">FAQ</h1>
-
-    <div v-for="f of faqs" class="toc">
-      <a class="is-primary" @click='scrollMeTo(f.title)'>{{f.title}}</a>
-    </div>
+<b-list-group>
+    <b-list-group-item  v-for="f of faqs" :key="f.title" class="toc" button @click='scrollMeTo(f.title)'>{{f.title}}
+    </b-list-group-item>
+  </b-list-group>
     <hr/>
     <faq-elem v-for="f of faqs" :key="f.title" v-bind="f" :ref="f.title">
 

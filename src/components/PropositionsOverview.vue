@@ -10,6 +10,7 @@
         </div>
       </div>
       <!-- Inspector -->
+      
       <div ref="inspector" id="inspector" class=""> 
         <h1 ref="inspector-title"></h1>
 
