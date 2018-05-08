@@ -35,10 +35,11 @@
       </div>
 
     </nav>
-    <div class="modal" :active.sync="isShowingLogin">
-      <div class="box is-4by3">
-        <login/>
-      </div>
+    <div class="modal" :class="{'is-active':isShowingLogin}">
+      <div class="modal-background" @click="isShowingLogin=false"></div>
+      <div class="modal-content box is-4by3">
+       <component :is="isShowingLogin?loginComponent:null"></component> 
+    </div>
     </div>
 
   </div>
@@ -71,7 +72,7 @@ export default {
   data () {
     return {
       isShowingLogin: false,
-      
+      loginComponent:Login,
       showNav: false,
       path: ''
     }
@@ -82,9 +83,6 @@ export default {
   }
 
 },
-  updated () {
-    // console.log('update nav')
-  },
   watch: {
     $route (to, from) {
       this.path = to.name
