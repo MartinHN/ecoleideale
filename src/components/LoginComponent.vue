@@ -112,7 +112,7 @@ export default {
        // console.log(vm.$refs.loginid.value,fo,rawData,fd)
        usersAPI.tryToLogin(rawData,
         (user)=>{
-          this.$toast.open({
+          this.$root.addToast({
             message: 'connecté comme '+user.name,
             type: 'is-success'
           })
@@ -121,7 +121,7 @@ export default {
 
         },
         (err)=>{
-          this.$toast.open({
+          this.$root.addToast({
             message: err.servermsg,
             type: 'is-danger'
           })

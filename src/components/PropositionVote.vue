@@ -21,17 +21,17 @@
       <div class="card-content">
         <div class="tabs is-toggle is-toggle-rounded is-fullwidth" >
           <ul>
-            <li @click="voteRating='OK'" ref="OK">
+            <li @click="rate='OK'" ref="OK">
               <a>
                 <font-awesome-icon color="green" icon="thumbs-up" :size="iconSize" />
               </a>
             </li>
-            <li  @click="voteRating='NO'" ref="NO">
+            <li  @click="rate='NO'" ref="NO">
               <a>
                 <font-awesome-icon color="red"  icon="thumbs-down" :size="iconSize"/>
               </a>
             </li>
-            <li  @click="voteRating='NA'" ref="NA">
+            <li  @click="rate='NA'" ref="NA">
               <a>
                 <font-awesome-icon color="gray"  icon="thumbs-down" :rotation="90" :size="iconSize"/>
               </a>
@@ -70,7 +70,7 @@ export default {
       content: 'none',
       proposition_id:-1,
       iconSize:"2x",
-      voteRating:"",
+      rate:"",
       remarks:''
     }
   },
@@ -79,16 +79,24 @@ export default {
       const that = this;
       if(this.voteIsValid){
         voteSession.voteInSession(this.proposition_id,this.voteObj,()=>{
+          voteSession.getNextVoteIdInSession(
+            (nextVoteId)=>{
+              this.$root.addSuccessToast('vote pris en compte ')
+              that.proposition_id=nextVoteId;
+            },
+            (end)=>{
+              that.$router.push('endVote')
+            })
+        },(err)=>{
+          this.$root.addErrorToast('probleme de connection au serveur : '+str(err))
           voteSession.getNextVoteIdInSession((nextVoteId)=>{
             that.proposition_id=nextVoteId;
-          },
-          (end)=>{
-            that.$router.push('endVote')
           })
-        })
+        }
+        )
       }
       else{
-        console.error('vote is not valid')
+        this.$root.addErrorToast("vous n'avez pas voté")
       }
     },
 
@@ -102,11 +110,11 @@ export default {
         this.content = prop.__content
         voteSession.getLastVoteFromId(to)
         .then((v)=>{
-          this.voteRating=v.voteRating || "NONE"
+          this.rate=v.rate || "NONE"
           this.remarks=v.remarks || ""
         })
         .catch((err)=>{
-          this.voteRating="NONE"
+          this.rate="NONE"
           this.remarks=""
           if(err!="not found"){console.error(err)}
         })
@@ -115,7 +123,7 @@ export default {
       }).
       catch(err=>console.error(err))
     },
-    voteRating(to,from){
+    rate(to,from){
       const ori = this.$refs[from];
       if(ori) { ori.classList.remove('is-active'); }
       const dest = this.$refs[to];
@@ -129,10 +137,10 @@ export default {
   },
   computed:{
     voteObj(){
-      return {voteRating:this.voteRating,remarks:this.remarks}
+      return {rate:this.rate,remarks:this.remarks}
     },
     voteIsValid(){
-      return this.voteRating!==""
+      return this.rate!=="NONE"
     }
 
   },
@@ -153,12 +161,16 @@ export default {
 
       })
     }
-    else if((this.proposition_id =voteSession.getCurrentVoteId())){
+    else if(voteSession.getCurrentVoteId()){
+      this.proposition_id =voteSession.getCurrentVoteId();
     }
     else{
       console.error("vote not initialized properly")
     }
 
+  },
+  unmounted(){
+    voteSession.invalidate();
   }
 }
 </script>

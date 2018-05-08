@@ -1,6 +1,6 @@
 const APIversion = [1, 0, 0]
 const storage = require('localforage').createInstance({name: 'vote_session'})
-
+import voteAPI from '@/api/vote'
 import propositionAPI from '../api/propositions';
 
 function arrayEq(a1,a2){
@@ -22,9 +22,7 @@ class VoteSession{
 
 
   init (cb) {
-    if(this.inited){
-      cb()
-    }
+    if(this.inited){cb();}
 
     const that = this
     const initStorage = () => 
@@ -59,8 +57,6 @@ class VoteSession{
 
     if(doNotOverride && this.session && this.session.idList.length){return}
       this.session = {type,idx:-1,idList:[],votes:this.votes}
-    // console.log("starting session",propositionAPI.getAllPropositionsForTagName)
-    // debugger
     if(type=='all'){
       const allprops = propositionAPI.getPropositions();
       this.session.idList = Object.keys(allprops).map(el=>{return allprops[el].number});
@@ -83,6 +79,11 @@ class VoteSession{
   isValid() {
     return this.inited && this.session && this.session.idList.length && this.isAuthorized;
   }
+  invalidate(){
+    this.session.idList = []
+    this.session.idx = -1
+
+  }
 
   hasEnded(){return this.session.idx>=this.session.idList.length;}
   checkVoteIntegrity(vote){
@@ -100,33 +101,36 @@ class VoteSession{
     }
     return undefined;
   }
-  voteInSession(id,vote,cb){
+  voteInSession(id,vote,cb,err){
     if(!this.session){console.error('no vote session ');return}
     if(this.checkIdIntegrity(id) && this.checkVoteIntegrity(vote)){
       this.votes[id] = vote;
-      storage.setItem('a_'+id,vote).then(this.__sendVote(id,vote,cb)).catch()
+      storage.setItem('a_'+id,vote).then(this.__sendVote(id,vote,cb,err)).catch()
     }
     else{
       erf("wrong "+(this.checkIdIntegrity(id)?"id":"vote"),id,vote)
     }
   }
-  __sendVote(id,vote,cb){
+  __sendVote(id,vote,cb,err){
     if(this.isAuthorized){
-      if(cb)cb();
+      console.log("voting" , vote)
+      voteAPI.sendVote(id,vote,
+        ()=>{if(cb)cb();},
+        err)
     }
   }
   getLastVoteFromId(id){
     return new Promise((resolve,reject)=>{
       const vote = this.votes[id]
-      if(vote) resolve(vote)
-        else reject("not found")
-      })
+      if(vote) resolve(vote);
+      else reject("not found")
+    })
   }
 
   getNextVoteIdInSession(nextCb,endCb){
     if(!this.isValid() || !this.session || !this.session.idList){console.error('no vote or list in session ');return}
     this.session.idx++;
-    if(this.hasEnded()){endCb();}
+    if(this.hasEnded()){this.invalidate();endCb();}
     else{nextCb(this.session.idList[this.session.idx])}
   }
 
