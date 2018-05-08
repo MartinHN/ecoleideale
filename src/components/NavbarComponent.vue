@@ -3,7 +3,7 @@
   <div>
     <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
-        <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img src="@/assets/logo_small.png" href="/"></router-link>
+        <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img class="button" src="@/assets/logo_small.png" href="/" style="height:100%;padding:0"></router-link>
 
         <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>

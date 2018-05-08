@@ -1,7 +1,9 @@
 class Request{
 
  emitCmd(type,path,args,headers,data,cb,err){
+
     var xhr = new XMLHttpRequest()
+
     var fullURL = this.url + path
     if ( args && (Object.keys(args).length === 0)) {
       fullURL += '?';
@@ -9,6 +11,7 @@ class Request{
       fullURL+=al.join('&')
     }
     xhr.open(type, fullURL)
+    
     xhr.onload =  ()=> {
       var r = xhr.responseText
       var res = (r && r[0]==='{')? JSON.parse(r):r;
@@ -16,7 +19,9 @@ class Request{
     }
     xhr.onerror = (e)=>{err(e)}
     xhr.ontimeout=(e)=>{err(e)}
-    
+    xhr.withCredentials=true;
+    headers['Access-Control-Allow-Credentials']=true
+    // headers['Access-Control-Allow-Origin']='*'
     for( var h in headers){
       xhr.setRequestHeader(h,headers[h])
     }

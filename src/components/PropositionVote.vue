@@ -88,10 +88,11 @@ export default {
               that.$router.push('endVote')
             })
         },(err)=>{
-          this.$root.addErrorToast('probleme de connection au serveur : '+str(err))
+          this.$root.addErrorToast('probleme de connection au serveur : '+err)
           voteSession.getNextVoteIdInSession((nextVoteId)=>{
             that.proposition_id=nextVoteId;
-          })
+          },
+          (err)=>{this.$root.addErrorToast('erreur interne (vote) '+err)})
         }
         )
       }

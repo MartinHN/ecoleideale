@@ -11,8 +11,11 @@
       </div>
       <!-- Inspector -->
       <div  ref="inspector" id="inspector" class=""> 
-        <div v-if="openedTag" class="button is-danger is-outlined" @click="start_survey(openedTag.name)" style="float:right;" > voter pour cette categorie</div>
-        <h1 ref="inspector-title" ></h1>
+        <div id='inspector-header'>
+          
+          <h1 ref="inspector-title" ></h1>
+          <div v-if="openedTag" class="button is-primary is-outlined" @click="start_survey(openedTag.name)" style="float:right;" > voter pour cette categorie</div>
+        </div>
         
 
         <div class="box" v-for="t of relatedPropositions" :key="t.number" @click="" :ref="t.parsedTitle" >
@@ -30,29 +33,29 @@
         <div class="box has-background-primary">
           <div class="button is-outlined" @click="start_survey('all')"> je vote pour toute</div>
         </div>
-      <!-- </div> -->
+        <!-- </div> -->
+      </div>
     </div>
-  </div>
 
-</template>
+  </template>
 
-<script>
+  <script>
 
-import propositionAPI from '../api/propositions'
-import query from '@/libs/query'
+  import propositionAPI from '../api/propositions'
+  import query from '@/libs/query'
 
-export default {
-  name: 'proposition-overview',
-  components: {},
-  data () {
-    return {
-      tags:{},
-      openedTag:'',
-      relatedPropositions:[]
-    }
-  },
-  methods: {
-    openTag:function(tag){
+  export default {
+    name: 'proposition-overview',
+    components: {},
+    data () {
+      return {
+        tags:{},
+        openedTag:'',
+        relatedPropositions:[]
+      }
+    },
+    methods: {
+      openTag:function(tag){
       // console.log(tag)
       if(this.openedTag){this.closeTag(this.openedTag);}
       
@@ -114,6 +117,13 @@ $split :70vh;
   height: 100vh - $split - 10vh;
 
 }
+#inspector-header{
+  display:flex;
+  flex-direction:row;
+  justify-content: space-between;
+  margin: 10px;
+}
+#inspector-header h1 {display:table-cell; vertical-align:middle}
 .tag-list{
   width:40vw;
   margin: 10px;
