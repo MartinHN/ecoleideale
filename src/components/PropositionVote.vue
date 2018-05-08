@@ -7,9 +7,9 @@
         <div class="media">
           <div class="media-content">
             <p class="title is-4">{{title}}</p>
-            <b-taglist>
-              <b-tag v-for="t of tags" :key="t.id"  >{{t}}</b-tag>
-            </b-taglist>
+            <div class="tags">
+              <div class="tag" v-for="t of tags" :key="t.id"  >{{t}}</div>
+            </div>
           </div>
         </div>
 
@@ -19,30 +19,30 @@
     </div>
     <div class="card vote">
       <div class="card-content">
-        <b-tabs  type="is-toggle-rounded" v-model="radioButton" expanded >
-
-          <b-tab-item label="Ok" >
-            <template slot="header">
-              <font-awesome-icon color="green" icon="thumbs-up" :size="iconSize" />
-            </template>
-          </b-tab-item>
-          <b-tab-item label="No">
-            <template slot="header">
-              <font-awesome-icon color="red"  icon="thumbs-down" :size="iconSize"/>
-            </template>
-          </b-tab-item>
-          <b-tab-item label="NoVote" :visible="false"/>
-          <b-tab-item native-value="Maybe">
-            <template slot="header">
-              <font-awesome-icon color="gray"  icon="thumbs-down" :rotation="90" :size="iconSize"/>
-            </template>
-          </b-tab-item>
-        </b-tabs>
-        <b-input v-model.lazy="remarks" type="textarea" ref="remarks" name="remarks" placeholder="remarques" />
+        <div class="tabs is-toggle is-toggle-rounded is-fullwidth" >
+          <ul>
+            <li @click="voteRating='OK'" ref="OK">
+              <a>
+                <font-awesome-icon color="green" icon="thumbs-up" :size="iconSize" />
+              </a>
+            </li>
+            <li  @click="voteRating='NO'" ref="NO">
+              <a>
+                <font-awesome-icon color="red"  icon="thumbs-down" :size="iconSize"/>
+              </a>
+            </li>
+            <li  @click="voteRating='NA'" ref="NA">
+              <a>
+                <font-awesome-icon color="gray"  icon="thumbs-down" :rotation="90" :size="iconSize"/>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <textarea class="textarea" v-model.lazy="remarks"  ref="remarks" name="remarks" placeholder="remarques" />
       </div>
       <div class="buttons is-centered">
-          <div class="button" > Vote </div>
-        
+        <div class="button" @click="doVote()"> Vote suivant</div>
+
       </div>
     </div>
     <!-- <div v-html="defaultText"></div> -->
@@ -50,16 +50,15 @@
 </template>
 
 <script>
-
-import propositionAPI from '../api/propositions'
+import query from '@/libs/query'
+import propositionAPI from '@/api/propositions'
+import voteSession from '@/libs/voteSession'
 import fontawesome from '@fortawesome/fontawesome'
 import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import thumbsUpIco from '@fortawesome/fontawesome-free-solid/faThumbsUp'
 import thumbsDownIco from '@fortawesome/fontawesome-free-solid/faThumbsDown'
 fontawesome.library.add( thumbsUpIco,thumbsDownIco)
 
-const lbrRe = new RegExp('\\\\n', 'g')
-function replacelbr (str) {str = str.replace(lbrRe, '<br/>') ; return str}
 
 export default {
   name: 'proposition',
@@ -71,72 +70,123 @@ export default {
       content: 'none',
       proposition_id:-1,
       iconSize:"2x",
-      radioButton: 2,
-      voteType:'',
+      voteRating:"",
       remarks:''
     }
   },
   methods: {
-    getCurrentVote(){
-      switch(this.radioButton){
-        case 0: return "Ok"
-        case 1: return "No"
-        case 2: return ""
-        case 3: return "NA"
-        default: console.error("wrong vote")
+    doVote(){
+      const that = this;
+      if(this.voteIsValid){
+        voteSession.voteInSession(this.proposition_id,this.voteObj,()=>{
+          voteSession.getNextVoteIdInSession((nextVoteId)=>{
+            that.proposition_id=nextVoteId;
+          },
+          (end)=>{
+            that.$router.push('endVote')
+          })
+        })
       }
-    }
+      else{
+        console.error('vote is not valid')
+      }
+    },
+
   },
   watch:{
     proposition_id(to,from){
-      const prop = propositionAPI.getPropositionFromId(to);
-      this.title = prop.parsedTitle
-      this.tags = prop.tags
-      this.content = prop.__content
+      propositionAPI.getPropositionFromId(to)
+      .then(prop=>{
+        this.title = prop.parsedTitle
+        this.tags = prop.tags
+        this.content = prop.__content
+        voteSession.getLastVoteFromId(to)
+        .then((v)=>{
+          this.voteRating=v.voteRating || "NONE"
+          this.remarks=v.remarks || ""
+        })
+        .catch((err)=>{
+          this.voteRating="NONE"
+          this.remarks=""
+          if(err!="not found"){console.error(err)}
+        })
+
+
+      }).
+      catch(err=>console.error(err))
     },
-    // currentVote(to,from){
-    //   console.log(to)
-    // },
+    voteRating(to,from){
+      const ori = this.$refs[from];
+      if(ori) { ori.classList.remove('is-active'); }
+      const dest = this.$refs[to];
+      if(dest){dest.classList.add('is-active');}
+      else if(to!="NONE"){console.error("radio bug","f",from,"t",to,this)}
+
+    },
     // remarks(to){
     //   console.log(to)
     // }
   },
   computed:{
-    currentVote(){
-      return this.getCurrentVote()
+    voteObj(){
+      return {voteRating:this.voteRating,remarks:this.remarks}
+    },
+    voteIsValid(){
+      return this.voteRating!==""
     }
+
   },
   mounted () {
-    if(this.proposition_id<0){
-      this.proposition_id = propositionAPI.getFirstId();
-    }
-    
-  }
+    if(!voteSession.isValid()){
+      const args=query.getCurrentArgs()
+      voteSession.init(()=>{
+        if(args && ('type' in args)){
+          voteSession.startSession(args['type'],()=>{
+            voteSession.getNextVoteIdInSession(
+              id=>{
+                console.log("init session with id",id)
+                this.proposition_id =id
+              },
+              err=>{console.error(err)})
+          })
+        }
 
+      })
+    }
+    else if((this.proposition_id =voteSession.getCurrentVoteId())){
+    }
+    else{
+      console.error("vote not initialized properly")
+    }
+
+  }
 }
 </script>
 
-<style scoped >
+<style  >
 
 #header {
   display: flex;
   flex-direction: row;
+  max-height: 50vh;
+  overflow-y: scroll;
 
+}
+
+.b-tabs.is-fullwidth .tab-content{
+  height:0px;
+  padding:0px;
+}
+.b-tabs.is-fullwidth {
+  margin-bottom: 3px;
 }
 #content-header{
   /*float:left;*/
   flex: 1 1 75vw;
 }
 #img-header {
-  
+
   flex: 1 1 25vw;
 }
-.column {
-  /*display: block;*/
-  /*margin: auto;*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-}
 </style>

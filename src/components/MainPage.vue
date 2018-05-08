@@ -103,7 +103,7 @@ pre, code{
 
 #slidersContainers{
   flex:1 1 300px;
-  /*margin:10px;*/
+  margin:10px;
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;

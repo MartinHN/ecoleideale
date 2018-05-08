@@ -13,7 +13,7 @@ class PropositionsAPI{
       const matches = k.match(numInTitle)
       
       if(!matches || matches.length!=3){
-        console.warn('can\'t parse proposition title' ,k,matches)
+        console.error('can\'t parse proposition title' ,k,matches)
       }
       const num = parseInt(matches[1],10);
       o.number=num;
@@ -28,14 +28,19 @@ class PropositionsAPI{
     }
   }
   getPropositions(){return this.mdObjs}
-  getFirstId(){return 1}
+  isValidId(id){return typeof id==='number'}
+
   getPropositionFromId(id){
+    return new Promise((resolve,reject)=>{
+      if(!this.isValidId(id)){reject('id not valid '+ id)}
     for(var k in this.mdObjs){
       const kk=this.mdObjs[k]
       if(kk.number==id) {
-        return kk
+        resolve(kk)
       }
     }
+    reject('not found '+id)
+  })
   }
 
   getAllTags(){return this.tags;}
@@ -44,16 +49,16 @@ class PropositionsAPI{
     const res = []
     for(var k in this.mdObjs){
       const kk=this.mdObjs[k]
-    // console.log(tag,kk.tags,kk.tags.indexOf(tag)>=0)
-    if(kk.tags.indexOf(tag)>=0) {
-      res.push(kk)
+
+      if(kk.tags.indexOf(tag)>=0) {
+        res.push(kk)
+      }
     }
+    if(res===[]){
+      console.warn('not found tag',tag)
+    }
+    return res
   }
-  if(res===[]){
-    console.warn('not found tag',tag)
-  }
-  return res
-}
 
 
 }

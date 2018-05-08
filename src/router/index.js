@@ -11,6 +11,7 @@ import Login from '@/components/LoginComponent'
 import Vote from  '@/components/PropositionVote'
 import ForumPostList from '@/components/ForumPostList'
 import PropositionsOverview from '@/components/PropositionsOverview'
+import endVote from '@/components/EndVote'
 
 import NotFoundComponent from '@/components/NotFoundComponent'
 
@@ -41,6 +42,7 @@ const router = new Router({
     { path: '/Forum', name: 'Forum', component: ForumPostList },
     { path: '/admin', name: 'admin', component: Admin },
     { path: '/login', name: 'login', component:Login },
+    { path: '/endvote', name: 'endvote', component:endVote },
     {path: '/vote',name:'vote',component:Vote},
     {path: '/propositions',name:'propositions',component:PropositionsOverview},
     { path: '*', component: NotFoundComponent }

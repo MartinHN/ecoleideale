@@ -4,18 +4,20 @@
     <div id="page-split" class="">
       <!-- taglist -->
       <div class=" is-half tag-list">
-        <div class="button is-info is-rounded is-outlined tag-element" v-for="t of tags" :key="t.name" @click="openTag(t)" :ref="t.name" style="margin:1px">
+        <div class="button is-rounded is-outlined tag-element" :class="getColor(i)" v-for="(t,k,i) of tags" :key="t.name" @click="openTag(t)" :ref="t.name" style="margin:1px">
           {{t.name}} ({{t.num}})
 
         </div>
       </div>
       <!-- Inspector -->
-      <div ref="inspector" id="inspector" class=""> 
-        <h1 ref="inspector-title"></h1>
+      <div  ref="inspector" id="inspector" class=""> 
+        <div v-if="openedTag" class="button is-danger is-outlined" @click="start_survey(openedTag.name)" style="float:right;" > voter pour cette categorie</div>
+        <h1 ref="inspector-title" ></h1>
+        
 
-        <div class="card" v-for="t of relatedPropositions" :key="t.number" @click="" :ref="t.parsedTitle" >
+        <div class="box" v-for="t of relatedPropositions" :key="t.number" @click="" :ref="t.parsedTitle" >
 
-          <div class="media">{{t.parsedTitle}}</div>
+          <h1 class="media">{{t.parsedTitle}}</h1>
           <div class="card-content" v-html="t.__content"/>
 
           <!-- <div class="media-content" v-if="openedTag===t">Im open</div> -->
@@ -23,10 +25,12 @@
         </div>
       </div>
     </div>
-    <div id="vote-button">
-      <div class="buttons is-centered">
-      <div class="button" @click="start_survey()"> c'est parti !</div>
-      </div>
+    <!-- <div id="vote-button" class="message is-primary">
+      <div class="message-header"> -->
+        <div class="box has-background-primary">
+          <div class="button is-outlined" @click="start_survey('all')"> je vote pour toute</div>
+        </div>
+      <!-- </div> -->
     </div>
   </div>
 
@@ -35,7 +39,7 @@
 <script>
 
 import propositionAPI from '../api/propositions'
-import query from '@/api/query'
+import query from '@/libs/query'
 
 export default {
   name: 'proposition-overview',
@@ -68,14 +72,17 @@ export default {
        // domEl.style.isActive=false
      }
    },
-   start_survey(){
-    const args = {test:'argvalue'}
-    const url = 'vote' +query.buildArgsFromObj(args)
+   start_survey(type){
+    const url = 'vote' +query.buildArgs({type})
     this.$router.push(url)
-   }
+  },
+  getColor(i){
+    const colors=['is-info','is-danger','is-success','is-warning']
+    return colors[i%colors.length]
+  }
 
- },
- watch:{
+},
+watch:{
   openedTag(to){
     this.relatedPropositions = propositionAPI.getAllPropositionsForTagName(this.openedTag.name)
     console.log(this.relatedPropositions ,"open change")
@@ -93,14 +100,18 @@ created () {
 </script>
 
 <style scoped lang="scss">
+// @import "@/css/config.scss";
 $split :70vh;
 
+.box{
+  margin:10px;
+}
 #page-split{
   height: $split;
   max-height: $split;
 }
 #vote-button{
-  height: 100vh- $split - 10vh;
+  height: 100vh - $split - 10vh;
 
 }
 .tag-list{

@@ -3,7 +3,7 @@
     <!-- <h1> login </h1> -->
     <br/>
     <h1 v-if="isConnectedToServer=='error'"> pas de connection au server</h1>
-    <b-loading v-else-if="isConnectedToServer=='waiting'" :is-full-page="false" :active="true"> waiting</b-loading>
+    <div class="loading" v-else-if="isConnectedToServer=='waiting'" :is-full-page="false" :active="true"> waiting</div>
 
     <div v-else class="columns">
       <div class="column">
@@ -45,7 +45,7 @@
 <script>
 
 import usersAPI from '@/api/users'
-import query from '@/api/query'
+import query from '@/libs/query'
 var debounce = require('lodash.debounce')
 
 const checkMinLength = function (s) {
@@ -136,7 +136,6 @@ export default {
  },
  watch: {
   isConnectedToServer: function (to, from) {
-      // debugger
       console.log('connection status', to)
     }
   },
@@ -144,9 +143,10 @@ export default {
     const vm = this
     usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
     // check error in redirections
-    params = query.getCurrentArgs()
+    const params = query.getCurrentArgs()
   }
 }
+
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

@@ -35,11 +35,11 @@
       </div>
 
     </nav>
-    <b-modal :active.sync="isShowingLogin">
+    <div class="modal" :active.sync="isShowingLogin">
       <div class="box is-4by3">
         <login/>
       </div>
-    </b-modal>
+    </div>
 
   </div>
 </template>
@@ -48,7 +48,7 @@
 import share from './Share.vue'
 import Vue from 'vue'
 import Login from './LoginComponent'
-import Buefy from 'buefy'
+
 
 const customLink = Vue.component('custom-link', {
   template: `<router-link :to="to" class="navbar-item" :class="{ 'is-active': ($parent.path==to) }" >
@@ -65,7 +65,7 @@ const customLink = Vue.component('custom-link', {
   }
 })
 
-const modalComp = Vue.component(Buefy.Modal.name, Buefy.Modal); 
+
 export default {
   components: {share, customLink, Login},
   data () {
