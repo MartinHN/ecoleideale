@@ -11,7 +11,9 @@
     </div>
 
     <br/>
-    <posteditor/>
+    <div  class="box editor">
+      <posteditor />
+    </div>
   </div>
 </template>
 
@@ -35,7 +37,7 @@ export default {
   methods: {
     fetchData: function () {
 
-      
+
     }
 
   },
@@ -53,6 +55,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
+$editor-height:30vh;
+
+.editor{
+  position: fixed;
+  padding: 10px;
+  height: $editor-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+}
 </style>

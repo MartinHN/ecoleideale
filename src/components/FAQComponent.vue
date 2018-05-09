@@ -43,7 +43,7 @@ var FAQElem = Vue.component('faq-elem',{
       
     }
   },
-  template : '<div> <h1 :style="{opacity:flash}" style={background-color:red} >{{title}}</h1><p v-html="__content"></p> </div>'
+  template : '<div class="box" style="margin:10px"> <h1 :style="{opacity:flash}" style={background-color:red} >{{title}}</h1><p v-html="__content"></p> </div>'
 })
 
 var mdObj = {}
@@ -112,7 +112,7 @@ export default {
       new TWEEN.Tween({i:window.scrollY})
       .to({i:top},200)
       .onUpdate((v)=>{
-        console.log(v.i)
+        // console.log(v.i)
         window.scrollTo(0,v.i);
       })
       .onComplete(function(){

@@ -7,18 +7,6 @@
         <div id="comment-box" class="box">
           <carousel  :per-page="1" autoplay autoplayHoverPause navigationEnabled mouse-drag :autoplayTimeout="4000" :paginationEnabled="false">
             <slide v-for="s of comments" :key="s.id">
-
-<!--               <h2>{{s.title}}</h2>
-              <div class="columns">
-                <div class="column is-one-quarter">
-                  <img v-show="s.photo" :src="s.photo" style="width:100px;">
-                </div>
-                <div class="column">
-                  <p v-html="s.__content" style="margin-left:10px"></p>
-                </div>
-              </div>
-              <em>{{s.author}}</em> -->
-              <!-- <div class="card" > -->
                 <div class="card-content">
                   <div class="media">
                     <div class="media-left">
@@ -77,7 +65,9 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style scoped lang="scss">
+
+$participate-height:40vh;
 #mainpage{
   display: flex;
   flex-direction: column;
@@ -96,14 +86,14 @@ pre, code{
 #participate{
 
   /*width:100%;*/
-  flex:1 1 40vh;
+  flex:1 1 $participate-height;
   margin: 10px;
   background-color: #BE0004
 }
 
 #slidersContainers{
-  flex:1 1 300px;
-  margin:10px;
+  flex:1 1 90vh-$participate-height;
+  /*margin:10px;*/
   display: flex;
   flex-direction:row;
   flex-wrap: wrap;
@@ -117,8 +107,8 @@ pre, code{
   box-sizing: border-box;
   /*min-height: 30vh;*/
   /*flex:1 1 450px;*/
-  flex-basis: 100%;
-  max-width: 100vw;
+  flex: 1 1 300px;
+  /*max-width: 50vw;*/
   
 }
 /*@media screen and (min-width: 800px) {
@@ -138,8 +128,10 @@ pre, code{
 }
 .VueCarousel{
   height: 100%;
+
   /*display: block;*/
-  /*overflow-y: 1;*/
+  overflow-y: scroll;
+  /*overflow-x: hidden;*/
 }
 
 </style>
