@@ -1,9 +1,10 @@
 import Req from "./requestBase"
 
+const cfg = require('./config')
+
 class VoteAPI  extends Req{
   constructor(){
-    super();
-    this.url = 'http://127.0.0.1:3000/api/vote'
+    super('/api/vote');
   }
 
   sendVote(voteId,vote,cb,err){

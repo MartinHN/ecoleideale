@@ -8,6 +8,7 @@
     :key="i" 
     @click="$store.commit('removeToastAtIdx',i)">
     {{m.message}}
+    <div v-if="m.num>1">&nbsp({{m.num}})</div>
   </div>
 </transition-group>
 <link rel="icon" type="image/png" href="../assets/logo_small.png" />
@@ -77,46 +78,28 @@ h1, h2 {
   font-weight: bold;
 }
 
-// .toast {
-  //   position: fixed;
-  //   display: inline-flex;
-  //   // height:10vh;
-  //   top: 0;
-  //   left: 0;
-  //   right: 0;
-  //   overflow: hidden;
-  //   z-index: 1000;
-  //   pointer-events: none;
-  //   animation-duration: 1s;
-  //   text-align: center;
-  
-  //   pointer-events: auto;
-  //   opacity: 0.92;
+.toast{
+  @extend .button;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0.92;
+  animation-duration: 1s;
 
+}
 
-  // }
-  .toast{
-    @extend .button;
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    right: 0;
-    opacity: 0.92;
-    animation-duration: 1s;
+.list-item {
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+  transition: all .5s;
 
-  }
-
-  .list-item {
-    display: inline-block;
-    margin-right: 10px;
-  }
-  .list-enter-active, .list-leave-active {
-    transition: all .5s;
-
-  }
-  .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
-    opacity: 0;
-    transform: translateY(-30px);
-  }
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(-30px);
+}
 </style>

@@ -1,10 +1,10 @@
 <!--NavbarComponent.vue-->
 <template>
   <div>
-    <nav class="navbar is-fixed-top " role="navigation" aria-label="main navigation">
+    <nav class="navbar card is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img class="button" src="@/assets/logo_small.png" href="/" style="height:100%;padding:0"></router-link>
-
+        <share class="share" ></share>
         <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -20,7 +20,7 @@
           <custom-link to='Contact'>Contact</custom-link>
           <custom-link to='Forum'>Forum</custom-link>
           <div class="navbar-item">
-            <share></share>
+            
             <div style="margin-left:10px">
               <template v-if="!$store.getters.isLoggedIn">
                 <button  class="button is-small" @click="isShowingLogin=true">Login</button>
@@ -97,7 +97,7 @@ button{
   align-self: center;
 }
 .navbar{
-  border-bottom: 1px solid black;
+  /*border-bottom: 1px solid black;*/
 }
 
 .navbar-burger{
@@ -114,6 +114,11 @@ nav{
   height: 10vh;
   min-height: 10vh;
 }
+.share{
+  display: flex;
+  flex-grow: 1;
+}
+
 .navbar-brand{
   min-height: 10vh; /*????*/
   /*height:100%;*/

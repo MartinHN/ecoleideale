@@ -7,6 +7,7 @@ class PropositionsAPI{
     importAll(require.context('@/md/propositions/', true, /\.md$/),this.mdObjs={})
     const numInTitle =/(\d+)(.*)$/i;
     this.tags = {}
+    this.allTag = {num:0,name:'tout'}
     for(var kk in this.mdObjs){
       const k = this.mdObjs[kk].title;
       const o = this.mdObjs[kk];
@@ -24,8 +25,11 @@ class PropositionsAPI{
         }
         this.tags[t].num+=1;
       }
+      this.allTag.num++;
+      
       // console.log(k,this.mdObjs[k].parsedTitle)
     }
+    this.tags[this.allTag.name] = this.allTag
   }
   getPropositions(){return this.mdObjs}
   isValidId(id){return typeof id==='number'}
@@ -43,14 +47,14 @@ class PropositionsAPI{
   })
   }
 
-  getAllTags(){return this.tags;}
+  getAllTags(){return this.tags}
 
   getAllPropositionsForTagName(tag){
     const res = []
     for(var k in this.mdObjs){
       const kk=this.mdObjs[k]
 
-      if(kk.tags.indexOf(tag)>=0) {
+      if(kk.tags.indexOf(tag)>=0 || tag==this.allTag.name) {
         res.push(kk)
       }
     }

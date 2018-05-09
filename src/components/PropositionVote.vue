@@ -1,7 +1,7 @@
 <!--NavbarComponent.vue-->
 <template>
-  <div class="proposition">
-    <div class="card" id="header">
+  <div class="proposition-page">
+    <div class="" id="header">
 
       <div class="card-content" id="content-header">
         <div class="media">
@@ -17,34 +17,39 @@
       </div>
       <img id="img-header" src="http://placeholder.pics/svg/300/DEDEDE/555555/image du vote"></img>
     </div>
-    <div class="card vote">
-      <div class="card-content">
-        <div class="tabs is-toggle is-toggle-rounded is-fullwidth" >
-          <ul>
-            <li @click="rate='OK'" ref="OK">
-              <a>
-                <font-awesome-icon color="green" icon="thumbs-up" :size="iconSize" />
-              </a>
-            </li>
-            <li  @click="rate='NO'" ref="NO">
-              <a>
-                <font-awesome-icon color="red"  icon="thumbs-down" :size="iconSize"/>
-              </a>
-            </li>
-            <li  @click="rate='NA'" ref="NA">
-              <a>
-                <font-awesome-icon color="gray"  icon="thumbs-down" :rotation="90" :size="iconSize"/>
-              </a>
-            </li>
-          </ul>
-        </div>
-        <textarea class="textarea" v-model.lazy="remarks"  ref="remarks" name="remarks" placeholder="remarques" />
+    <div class="card vote card-content">
+      <div class="tabs is-toggle is-toggle-rounded is-fullwidth" >
+        <ul>
+          <li @click="rate='OK'" ref="OK">
+            <a>
+              <font-awesome-icon color="green" icon="thumbs-up" :size="iconSize" />
+            </a>
+          </li>
+          <li  @click="rate='NO'" ref="NO">
+            <a>
+              <font-awesome-icon color="red"  icon="thumbs-down" :size="iconSize"/>
+            </a>
+          </li>
+          <li  @click="rate='NA'" ref="NA">
+            <a>
+              <font-awesome-icon color="gray"  icon="thumbs-down" :rotation="90" :size="iconSize"/>
+            </a>
+          </li>
+        </ul>
       </div>
-      <div class="buttons is-centered">
-        <div class="button" @click="doVote()"> Vote suivant</div>
-
+      <div class="vote-text-button " style="margin: 10px;display:flex;flex-direction: row;flex-wrap: wrap;">
+        <div style="flex:1 0 50vw">
+          <textarea  class="textarea" v-model.lazy="remarks"  ref="remarks" name="remarks" placeholder="remarques" />
+        </div>
+        <div style="flex:1 0 4vw">
+          <div class="buttons is-centered" style="">
+            <div class="button" @click="doVote()">  Vote suivant</div>
+          </div>
+        </div>
       </div>
     </div>
+
+
     <!-- <div v-html="defaultText"></div> -->
   </div>
 </template>
@@ -88,7 +93,7 @@ export default {
               that.$router.push('endVote')
             })
         },(err)=>{
-          this.$root.addErrorToast('probleme de connection au serveur : '+err)
+          this.$root.addErrorToast('probleme de connection au serveur : ',err)
           voteSession.getNextVoteIdInSession((nextVoteId)=>{
             that.proposition_id=nextVoteId;
           },
@@ -176,12 +181,18 @@ export default {
 }
 </script>
 
-<style  >
+<style scoped lang="scss">
+
+$vote-height:35vh;
+
+.proposition-page{
+  max-height: 90vh;
+}
 
 #header {
   display: flex;
   flex-direction: row;
-  max-height: 50vh;
+  max-height: 100vh-10vh-$vote-height;
   overflow-y: scroll;
 
 }
@@ -193,6 +204,8 @@ export default {
 .b-tabs.is-fullwidth {
   margin-bottom: 3px;
 }
+
+
 #content-header{
   /*float:left;*/
   flex: 1 1 75vw;
@@ -200,6 +213,21 @@ export default {
 #img-header {
 
   flex: 1 1 25vw;
+}
+.vote{
+  position: fixed;
+  padding: 10px;
+  height: $vote-height;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+
+}
+.vote-text-button{
+  flex: 1 3 0;
+  
 }
 
 </style>

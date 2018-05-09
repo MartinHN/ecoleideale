@@ -28,9 +28,18 @@ const store = new Vuex.Store({
       state.user.name='';
       state.user.mail='';
     },
-    addToast(state,payload){
-      console.log(payload)
-      state.toasts.splice(state.toasts.length,0,payload)
+    addToast(state,el){
+      console.log(el)
+      const existing  = state.toasts.find(e=>el.message===e.message && el.type===e.type)
+      
+      if(!existing){
+        state.toasts.splice(state.toasts.length,0,el)
+      }
+      else{
+        Object.assign( existing,{t:null})
+        existing.num++;
+        console.log('repeat toast',existing)
+      }
     },
     removeToastAtIdx(state,payload){
       const i =payload
@@ -86,21 +95,23 @@ const VueInstance = new Vue({
       watchToast();
 
     },
-    addErrorToast:function(t){
-      this.addToast({message:t,type:'is-danger'})
-    },
-    addInfoToast:function(t){
-      this.addToast({message:t,type:'is-info'})
-    },
-    addSuccessToast:function(t){
-      this.addToast({message:t,type:'is-success'})
-    },
-  }
-})
+    addToastWithType(t,obj,type){
+      if(typeof t !== "string" && ! ('servermsg' in t)){t=JSON.stringify(t)}
+        if(obj){t+=" " +JSON.stringify(obj)}
+          this.addToast({message:t['servermsg'] || t,type,num:1})
+      },
+      addErrorToast:function(t,obj){
+        this.addToastWithType(t,obj,'is-danger')
+      },
+      addInfoToast:function(t,obj){
+        this.addToastWithType(t,obj,'is-info')
+      },
+      addSuccessToast:function(t,obj){
+        this.addToastWithType(t,obj,'is-success')
+      },
+    }
+  })
 window.events = VueInstance
-window.events.flash = function (message) {
-  console.log('flash', message)
-}
 
 /* eslint-disable no-new */
 export default VueInstance

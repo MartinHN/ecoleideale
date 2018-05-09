@@ -1,28 +1,35 @@
 <!--NavbarComponent.vue-->
 <template>
   <div >
-    <form id="forumPostEditor" ref="form" method="post" :action="posturl">
+    <form id="forumPostEditor" ref="form" method="post">
       <input class="input" type="text" ref="title"  name="title" placeholder="titre" />
       <input class="input" type="textarea" ref="content" name="content" placeholder="contenu" />
-      <button type="submit" class="button"> ajout de post</button>
+      <div type="submit" class="button" @click.stop="publishPost()"> ajout de post</div>
 
     </form>
-    <!-- <div v-html="defaultText"></div> -->
+    
   </div>
 </template>
 
 <script>
 import forumAPI from '../api/forum'
-// import axios from 'axios';
+
 export default {
   name: 'forumpost',
   components: {},
+  props:['related_proposition'],
   data () {
     return {
-      posturl: forumAPI.url + '/add'
+      
     }
   },
   methods: {
+    publishPost(){
+      forumAPI.sendPost({related_proposition:this.related_proposition,title:this.title,content:this.content,},
+        (success)=>{this.$root.addSuccessToast("posté")},
+        (err)=>{this.$root.addErrorToast( err)},
+        )
+    }
 
   }
 

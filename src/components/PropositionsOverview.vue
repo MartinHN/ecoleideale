@@ -3,8 +3,8 @@
   <div class="proposition-overview">
     <div id="page-split" class="">
       <!-- taglist -->
-      <div class=" is-half tag-list">
-        <div class="button is-rounded is-outlined tag-element" :class="getColor(i)" v-for="(t,k,i) of tags" :key="t.name" @click="openTag(t)" :ref="t.name" style="margin:1px">
+      <div class="tag-list box">
+        <div class="button is-rounded is-outlined tag-element" :class="getColor(i)" v-for="(t,i) of orderedTags" :key="t.name" @click="openTag(t)" :ref="t.name" style="margin:1px">
           {{t.name}} ({{t.num}})
 
         </div>
@@ -12,7 +12,7 @@
       <!-- Inspector -->
       <div  ref="inspector" id="inspector" class=""> 
         <div id='inspector-header'>
-          
+
           <h1 ref="inspector-title" ></h1>
           <div v-if="openedTag" class="button is-primary is-outlined" @click="start_survey(openedTag.name)" style="float:right;" > voter pour cette categorie</div>
         </div>
@@ -28,34 +28,33 @@
         </div>
       </div>
     </div>
-    <!-- <div id="vote-button" class="message is-primary">
-      <div class="message-header"> -->
-        <div class="box has-background-primary">
-          <div class="button is-outlined" @click="start_survey('all')"> je vote pour toute</div>
-        </div>
-        <!-- </div> -->
-      </div>
+
+    <div id="vote-button" class="box has-background-primary">
+      <div class="button is-outlined" @click="start_survey('all')"> je vote pour toutes</div>
     </div>
 
-  </template>
+  </div>
+</div>
 
-  <script>
+</template>
 
-  import propositionAPI from '../api/propositions'
-  import query from '@/libs/query'
+<script>
 
-  export default {
-    name: 'proposition-overview',
-    components: {},
-    data () {
-      return {
-        tags:{},
-        openedTag:'',
-        relatedPropositions:[]
-      }
-    },
-    methods: {
-      openTag:function(tag){
+import propositionAPI from '../api/propositions'
+import query from '@/libs/query'
+
+export default {
+  name: 'proposition-overview',
+  components: {},
+  data () {
+    return {
+      tags:{},
+      openedTag:'',
+      relatedPropositions:[]
+    }
+  },
+  methods: {
+    openTag:function(tag){
       // console.log(tag)
       if(this.openedTag){this.closeTag(this.openedTag);}
       
@@ -76,7 +75,8 @@
      }
    },
    start_survey(type){
-    const url = 'vote' +query.buildArgs({type})
+    if(type==='all')type=propositionAPI.allTag.name
+      const url = 'vote' +query.buildArgs({type})
     this.$router.push(url)
   },
   getColor(i){
@@ -88,33 +88,93 @@
 watch:{
   openedTag(to){
     this.relatedPropositions = propositionAPI.getAllPropositionsForTagName(this.openedTag.name)
-    console.log(this.relatedPropositions ,"open change")
+    // console.log(this.relatedPropositions ,"open change")
   }
+
 },
 computed:{
+  orderedTags(){
+    const res  = []
+    const cmp=(a,b)=>{
+      if (a.name < b.name )
+        return -1;
+      if (a.name > b.name )
+        return 1;
+      return 0;
+    }
+    
+    for(const t in this.tags){
+      if(t!=propositionAPI.allTag.name)
+        res.push(this.tags[t]);
+    }
+
+    res.sort(cmp)
+    res.splice(0,0,propositionAPI.allTag)
+    return res;
+
+  }
 
 },
 created () {
 
   this.tags = propositionAPI.getAllTags();
 
+
+},
+mounted(){
+  this.openTag(propositionAPI.allTag)
 }
 }
 </script>
 
 <style scoped lang="scss">
 // @import "@/css/config.scss";
-$split :70vh;
+$split :80vh;
 
 .box{
   margin:10px;
 }
 #page-split{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
   height: $split;
   max-height: $split;
 }
+
+.tag-list{
+  width:100vw;
+  margin: 3px;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  max-height: $split;
+  flex: 1 0 10vh;
+
+}
+#inspector{
+  margin: 3px;
+  // width:50vw;
+  overflow-y: scroll;
+  max-height: $split - 5vh;
+  /*flex-wrap: wrap;*/
+  // float:left;
+
+  flex: 3 0 30vw;
+  flex-direction: row;
+
+
+}
+
 #vote-button{
-  height: 100vh - $split - 10vh;
+
+  position: fixed;
+  padding: 10px;
+  height: 100vh - $split - 10vh;;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+
 
 }
 #inspector-header{
@@ -123,28 +183,13 @@ $split :70vh;
   justify-content: space-between;
   margin: 10px;
 }
-#inspector-header h1 {display:table-cell; vertical-align:middle}
-.tag-list{
-  width:40vw;
-  margin: 10px;
-  flex-wrap: wrap;
-  float:left;
-  overflow-y: scroll;
-  max-width: 50vw;
-  
-  max-height: $split;
-  /*display: flex;*/
+
+#inspector-header h1 {
+  display:table-cell; 
+  vertical-align:middle;
 }
-#inspector{
-  margin: 10px;
-  width:50vw;
-  overflow-y: scroll;
-  max-height: $split - 5vh;
-  /*flex-wrap: wrap;*/
-  float:left;
 
 
-}
 .tag-element {
   /*display: block;*/
   /*margin: auto;*/

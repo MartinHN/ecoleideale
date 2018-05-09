@@ -57,7 +57,7 @@ class VoteSession{
 
     if(doNotOverride && this.session && this.session.idList.length){return}
       this.session = {type,idx:-1,idList:[],votes:this.votes}
-    if(type=='all'){
+    if(type==propositionAPI.allTag.name){
       const allprops = propositionAPI.getPropositions();
       this.session.idList = Object.keys(allprops).map(el=>{return allprops[el].number});
     }

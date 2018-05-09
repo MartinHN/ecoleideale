@@ -15,10 +15,12 @@
     inline-template
     >
 
-    <div>
+    <div class="share-container">
 
       <network network="facebook" >
+        <div class="icon-container">
         <font-awesome-icon :icon='["fab","facebook"]' :size="$parent.iconSize"/>
+      </div>
       </network>
       <network network="googleplus">
         <font-awesome-icon :icon='["fab","google-plus"]' :size="$parent.iconSize"/>
@@ -64,12 +66,24 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
-
+.share-container{
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  width: 100%;
+}
 i{
   display: inline-block;
+  flex: 0 1 100px;
 /*  width:40px;
   height: 40px*/
 /*float:right;*/
 /*width:100%;*/
+}
+.icon-container{
+  display: flex;
+  justify-content: space-around;
+  align-content: center;
+  /*margin: auto;*/
 }
 </style>

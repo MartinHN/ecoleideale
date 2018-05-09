@@ -1,8 +1,14 @@
+const cfg = require('./config')
 class Request{
+  constructor(domain){
+    this.url = cfg.serverURL+domain
+  }
 
  emitCmd(type,path,args,headers,data,cb,err){
 
     var xhr = new XMLHttpRequest()
+    headers = headers || {}
+    err = err || console.error
 
     var fullURL = this.url + path
     if ( args && (Object.keys(args).length === 0)) {

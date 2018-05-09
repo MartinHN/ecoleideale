@@ -31,7 +31,7 @@ return ()=>({
 })
 }
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   routes: [
     { path: '/', name: 'MainPage', component: MainPage },
     { path: '/Projet', name: 'Projet', component: Projet },
