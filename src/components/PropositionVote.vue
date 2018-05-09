@@ -92,7 +92,7 @@ export default {
           voteSession.getNextVoteIdInSession((nextVoteId)=>{
             that.proposition_id=nextVoteId;
           },
-          (err)=>{this.$root.addErrorToast('erreur interne (vote) '+err)})
+          (end)=>{that.$router.push('endVote')})
         }
         )
       }
