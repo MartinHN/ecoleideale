@@ -23,8 +23,8 @@ class Request{
       var res = (r && r[0]==='{')? JSON.parse(r):r;
       cb(res)
     }
-    xhr.onerror = (e)=>{err(e)}
-    xhr.ontimeout=(e)=>{err(e)}
+    xhr.onerror = (e)=>{err(e.type)}
+    xhr.ontimeout=(e)=>{err(e.type)}
     xhr.withCredentials=true;
     headers['Access-Control-Allow-Credentials']=true
     // headers['Access-Control-Allow-Origin']='*'

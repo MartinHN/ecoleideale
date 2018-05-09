@@ -4,7 +4,7 @@
     <nav class="navbar card is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img class="button" src="@/assets/logo_small.png" href="/" style="height:100%;padding:0"></router-link>
-        <share class="share" ></share>
+        <share class="share navbar-item" ></share>
         <div role="button" class="navbar-burger" :class="{ 'is-active': showNav }" @click="showNav = !showNav" aria-label="menu" aria-expanded="false">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
@@ -20,15 +20,8 @@
           <custom-link to='Contact'>Contact</custom-link>
           <custom-link to='Forum'>Forum</custom-link>
           <div class="navbar-item">
-            
-            <div style="margin-left:10px">
-              <template v-if="!$store.getters.isLoggedIn">
-                <button  class="button is-small" @click="isShowingLogin=true">Login</button>
-              </template>
-              <template v-else>
-                <button  class="button is-small" @click="$store.commit('doLogout')">Logout ({{username}})</button>
-              </template>
-            </div>
+            <a  v-if="!$store.getters.isLoggedIn" class="navbar-item" @click="isShowingLogin=true">Login</a>
+            <a  v-else class="navbar-item" @click="$store.commit('doLogout')">Logout ({{username}})</a>
           </div>
         </div>
 
@@ -38,11 +31,11 @@
     <div class="modal" :class="{'is-active':isShowingLogin}">
       <div class="modal-background" @click="isShowingLogin=false"></div>
       <div class="modal-content box is-4by3">
-       <component :is="isShowingLogin?loginComponent:null"></component> 
-    </div>
-    </div>
+       <component @shouldClose="isShowingLogin=false" :is="isShowingLogin?loginComponent:null"></component> 
+     </div>
+   </div>
 
-  </div>
+ </div>
 </template>
 
 <script>
@@ -79,10 +72,10 @@ export default {
   },
   computed:{
     username:function(){
-    return this.$store.state.user.name;
-  }
+      return this.$store.state.user.name;
+    }
 
-},
+  },
   watch: {
     $route (to, from) {
       this.path = to.name
@@ -147,4 +140,4 @@ nav{
   margin-right: 10px;
   margin-left: 10px;
   }*/
-  </style>
+</style>

@@ -16,7 +16,7 @@ class ForumAPI extends Req{
   }
 
 
-  init (cb) {
+  init (cb,err) {
     if(this.inited){
       cb()
     }
@@ -33,7 +33,8 @@ class ForumAPI extends Req{
           console.log('inited')
           if(cb)cb()
 
-        })
+        },
+      err)
       }
       storage.getItem('APIversion')
       .then(v => { if (v[0] != APIversion[0]) { storage.clear(initList) }else{initList()} })
@@ -46,7 +47,7 @@ class ForumAPI extends Req{
 
   }
 
-  getPostList (cb) {
+  getPostList (cb,err) {
     if (this.postIds.length) {
       cb(this.postIds)
     } 
@@ -62,7 +63,7 @@ class ForumAPI extends Req{
       console.error('no posts parsed')
       cb(null)
     }
-  })
+  },err)
     // }
   }
 

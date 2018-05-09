@@ -23,6 +23,20 @@ class UsersAPI extends Req{
     },err)
   }
 
+  registerUser(formData,cb,err){
+    err = err || console.error
+    this.postForm('/',formData,(resp)=>{
+      if( resp && resp.success){
+        const u = resp.user;
+        cb({name:u.username,mail:u.email})
+      }
+      else{
+        err(resp)
+      }
+
+    },err)
+  }
+
 
 }
 const usersAPI = new  UsersAPI()

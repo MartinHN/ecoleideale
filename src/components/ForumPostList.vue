@@ -45,7 +45,8 @@ export default {
     const that = this
     forumAPI.init(()=>{
       that.postIds=forumAPI.postIds
-    })
+    },
+    err=>{this.$root.addErrorToast(err)})
     
   },
   destroyed () {

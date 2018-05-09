@@ -8,12 +8,14 @@
     <div v-else class="columns">
       <div class="column">
         <h3 class="title is-8">j'ai déjà un compte</h3>
-        <form ref="loginForm" id="loginForm" :action="loginServer" class="formInputs">
-              <input ref="loginid" type="text" class="input" name="loginid" placeholder="mail ou nom d'utilisateur" @keyup="changeLoginForm" autocomplete="username" />
-            <p class="help is-danger">{{login_uname_error}}</p>
+        <form ref="loginForm" id="loginForm"  class="formInputs">
 
-              <input ref="logpass" type="password" class="input" name="logpass" placeholder="mot de passe" @keyup="changeLoginForm" autocomplete="current-password" />
-            <p class="help is-danger">{{login_pass_error}}</p>
+          <input v-model="login_uname" type="text" class="input" name="loginid" placeholder="mail ou nom d'utilisateur" autocomplete="username" />
+          <p class="help is-danger">{{login_uname_err}}</p>
+
+          <input v-model="login_pass" type="password" class="input" name="logpass" placeholder="mot de passe" autocomplete="current-password" />
+          <p class="help is-danger">{{login_pass_err}}</p>
+
           <div class="buttons is-centered">
             <button type="submit" @click="sendLogin" @touch="sendLogin" class="button validateButton" >se connecter</button>
           </div>
@@ -23,15 +25,20 @@
 
       <div class="column">
         <h3 class="title is-8">je crée un compte</h3>
-        <form ref="registerForm" id="registerForm" :action="loginServer" class="formInputs" method="post">
-          <input ref="register_uname" type="text" name="username" placeholder="nom d'utilisateur" @keyup="changeRegisterForm" autocomplete="username" class="input"/>
-          <div   ref="register_uname_err" class="error"/>
-          <input ref="register_mail" type="text" name="email" placeholder="addresse mail" @keyup="changeRegisterForm" autocomplete="email" class="input"/>
-          <div   ref="register_mail_err" class="error"/>
-          <input ref="register_pass" type="password" name="pass" placeholder="mot de passe" @keyup="changeRegisterForm" autocomplete="current-password" class="input"/>
-          <div   ref="register_pass_err" class="error"/>
-          <input ref="register_passConf" type="password" name="passConf" placeholder="confirmer mon mot de passe" @keyup="changeRegisterForm" autocomplete="current-password" class="input"/>
-          <div   ref="register_passConf_err" class="error"/>
+        <form ref="registerForm" id="registerForm" class="formInputs" method="post">
+
+          <input v-model="register_uname" type="text" name="username" placeholder="nom d'utilisateur"  autocomplete="username" class="input"/>
+          <p class="help is-danger">{{register_uname_err}}</p>
+
+          <input v-model="register_mail" type="text" name="email" placeholder="addresse mail" autocomplete="email" class="input"/>
+          <p class="help is-danger">{{register_mail_err}}</p>
+
+          <input v-model="register_pass" type="password" name="pass" placeholder="mot de passe" autocomplete="current-password" class="input"/>
+          <p class="help is-danger">{{register_pass_err}}</p>
+          
+          <input v-model="register_passConf" type="password" name="passConf" placeholder="confirmer mon mot de passe" autocomplete="current-password" class="input"/>
+          <p class="help is-danger">{{register_passConf_err}}</p>
+
           <div class="buttons is-centered">
             <button type="submit" name="register" @click="sendRegister" @touch="sendRegister" class="button validateButton" >s'inscrire</button>
           </div>
@@ -46,105 +53,148 @@
 
 import usersAPI from '@/api/users'
 import query from '@/libs/query'
-var debounce = require('lodash.debounce')
+// var debounce = require('lodash.debounce')
 
 const checkMinLength = function (s) {
-  if (s === '') { return 'veuillez renseigner ce champ' }
-    if (s.length < 4) { return 'champ trop court' }
-      return ''
-  }
+  if (s === '') { return 'veuillez renseigner ce champ' ;}
+  if (s.length < 4) { return 'champ trop court' ;}
+  return '';
+}
+const isMail = (m)=>{
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(m)
+
+}
 
 // const checkPassword = function (s) {
 // }
 
-var validateLogin = function () {
-  var vm = this
-  const obj = vm.$refs.loginid
-
-  var error = checkMinLength(obj.value)
-
-  vm.login_uname_error = error
-
-  var isValid = true
-  isValid &= (error === '')
-  return isValid
-}
-
-const validateRegister = function () {
-  var vm = this
-  const obj = vm.$refs.register_uname
-  var error = checkMinLength(obj.value)
-  vm.register_uname_error = error
-
-  var isValid = true
-  isValid &= (error === '')
-  return isValid
-}
 
 export default {
   data () {
     return {
-      loginServer: usersAPI.url,
       isConnectedToServer: 'waiting',
-      login_uname_error: '',
-      login_pass_error: '',
-      register_uname_error: '',
-      register_pass_error: '',
-      serverMessage:''
+      login_uname:'',
+      login_pass:'',
+      register_uname:'',
+      register_pass:'',
+      register_passConf:'',
+      register_mail:'',
+      serverMessage:'',
+      hasTriedToLog:false,
+      hasTriedToRegister:false,
 
     }
+  },
+  computed:{
+    login_uname_err(){
+      const v = this.login_uname
+      if(!this.hasTriedToLog && v===""){return ''};
+      return checkMinLength(v);
+    },
+    login_pass_err(){
+      const v = this.login_pass
+      if(!this.hasTriedToLog && v===""){return ''};
+      return checkMinLength(v);
+    },
+    register_uname_err(){
+      const v = this.register_uname
+      if(!this.hasTriedToRegister && v==="" ){return ''};
+      return checkMinLength(v);
+    },
+    register_pass_err(){
+      const v = this.register_pass
+      if(!this.hasTriedToRegister && v==="" ){return ''};
+      return checkMinLength(v);
+    },
+    register_passConf_err(){
+      const v = this.register_passConf
+      if(!this.hasTriedToRegister && v==="" ){return ''};
+      if(this.register_pass!=this.register_passConf){return 'mot de passe différent'}
+        return checkMinLength(v);
+    },
+    register_mail_err(){
+      const v = this.register_mail
+      if(!this.hasTriedToRegister && v==="" ){return ''};
+      if(!isMail(v))return 'mail non valide'
+        return checkMinLength(v);
+    },
+    log_isValid(){
+      return this.login_uname_err==='' && this.login_pass_err===""
+    },
+    register_isValid(){
+      return this.register_uname_err==='' && this.register_pass_err==="" && this.register_passConf_err==='' && this.register_mail_err===""
+    },
   },
   methods: {
-    changeLoginForm: function () { return debounce(validateLogin.bind(this), 300)() },
-    changeRegisterForm: function () { return debounce(validateRegister.bind(this), 300)() },
     sendLogin: function (e) {  
+      this.hasTriedToRegister=false;
+      this.hasTriedToLog=true;
       if (e.preventDefault) e.preventDefault();
       const vm = this
-      if (validateLogin.bind(this)()) {
-       // this.$refs.loginForm.submit()
-       // const fo2 = document.getElementById("loginForm")
-       const fo = vm.$refs.loginForm;
-       const fd = new FormData();
-       const rawData = {'loginid':vm.$refs.loginid.value,'logpass':vm.$refs.logpass.value}
-       for(var d in rawData){
-        fd.append(d,rawData[d]) 
-      }
-       // console.log(vm.$refs.loginid.value,fo,rawData,fd)
-       usersAPI.tryToLogin(rawData,
-        (user)=>{
-          this.$root.addToast({
-            message: 'connecté comme '+user.name,
-            type: 'is-success'
-          })
-          vm.$store.commit('doLogin',user);
-          vm.$parent.close()
+      if (vm.log_isValid) {
+        // this.$refs.loginForm.submit()
+        // const fo2 = document.getElementById("loginForm")
+        const fo = vm.$refs.loginForm;
+        const rawData = {'loginid':vm.login_uname,'logpass':vm.login_pass}
+        // const fd = new FormData();
+        // for(var d in rawData){
+        //   fd.append(d,rawData[d]) ;
+        // }
+        // console.log(vm.$refs.loginid.value,fo,rawData,fd)
+        usersAPI.tryToLogin(rawData,
+          (user)=>{
+            this.$root.addToast({
+              message: 'connecté comme '+user.name,
+              type: 'is-success'
+            })
+            vm.$store.commit('doLogin',user);
+            vm.$emit('shouldClose')
 
-        },
-        (err)=>{
-          this.$root.addToast({
-            message: err.servermsg,
-            type: 'is-danger'
-          })
-        }
-        ) 
-     } 
-   },
-   sendRegister: function (e) {
-   if (e.preventDefault) e.preventDefault();
-  if (validateRegister.bind(this)()) { this.$refs.registerForm.submit() } 
-}
- },
- watch: {
-  isConnectedToServer: function (to, from) {
-      console.log('connection status', to)
+          },
+          (err)=>{
+            this.$root.addToast({
+              message: err.servermsg,
+              type: 'is-danger'
+            })
+          }
+          ) 
+      } 
+    },
+    sendRegister: function (e) {
+      if (e.preventDefault) e.preventDefault();
+      this.hasTriedToRegister=true;
+      this.hasTriedToLog=false;
+      if (this.register_isValid) { 
+      // :  this.$refs.registerForm.submit() 
+      
+      const rawData = {'username':this.register_uname,'pass':this.register_pass,'email':this.register_mail}
+      // const fd = new FormData();
+      // for(var d in rawData){
+      //   fd.append(d,rawData[d]);
+      // }
+      usersAPI.registerUser(rawData,(u)=>{
+        this.$root.addSuccessToast("bienvenue "+ u.name)
+        this.$emit('shouldClose')
+      },
+      (err)=>{
+        this.$root.addErrorToast(err)
+      })
     }
-  },
-  mounted () {
-    const vm = this
-    usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
-    // check error in redirections
-    const params = query.getCurrentArgs()
+
   }
+},
+watch: {
+  isConnectedToServer: function (to, from) {
+    console.log('connection status', to)
+  }
+},
+mounted () {
+  const vm = this
+  usersAPI.isConnectedToServer((obj) => { vm.isConnectedToServer = 'success' }, () => { vm.isConnectedToServer = 'error' })
+// check error in redirections
+const params = query.getCurrentArgs()
+}
 }
 
 </script>
