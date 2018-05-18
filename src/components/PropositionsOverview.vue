@@ -11,21 +11,24 @@
       </div>
       <!-- Inspector -->
       <div  ref="inspector" id="inspector" class=""> 
+
         <div id='inspector-header'>
 
           <h1 ref="inspector-title" ></h1>
           <div v-if="openedTag" class="button is-primary is-outlined" @click="start_survey(openedTag.name)" style="float:right;" > voter pour cette categorie</div>
         </div>
+
+        <transition-group apear name="component-fade">
+          <div class="box" v-for="t of relatedPropositions" :key="t.number" @click="" :ref="t.parsedTitle" >
+
+            <h1 class="media">{{t.parsedTitle}}</h1>
+            <div class="card-content" v-html="t.__content" ></div>
+          </div>
+        </transition-group>
         
 
-        <div class="box" v-for="t of relatedPropositions" :key="t.number" @click="" :ref="t.parsedTitle" >
+        
 
-          <h1 class="media">{{t.parsedTitle}}</h1>
-          <div class="card-content" v-html="t.__content"/>
-
-          <!-- <div class="media-content" v-if="openedTag===t">Im open</div> -->
-
-        </div>
       </div>
     </div>
 
@@ -80,7 +83,7 @@ export default {
     this.$router.push(url)
   },
   getColor(i){
-    const colors=['is-info','is-danger','is-success','is-warning']
+    const colors=['is-info','is-danger','is-black','is-success']
     return colors[i%colors.length]
   }
 
@@ -132,7 +135,7 @@ mounted(){
 $split :80vh;
 
 .box{
-  margin:10px;
+  // margin:10px;
 }
 #page-split{
   display: flex;
@@ -143,12 +146,13 @@ $split :80vh;
 }
 
 .tag-list{
-  width:100vw;
-  margin: 3px;
+  width:100%;
+  padding: 3px;
   flex-wrap: wrap;
   overflow-y: scroll;
   max-height: $split;
   flex: 1 0 10vh;
+  background-color:#F4F4F4;
 
 }
 #inspector{
@@ -202,4 +206,15 @@ $split :80vh;
 
 
 }
+
+
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 </style>

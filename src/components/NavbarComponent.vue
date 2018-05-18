@@ -1,6 +1,9 @@
 <!--NavbarComponent.vue-->
 <template>
   <div>
+    <div class="modal modal-nav" :class="{'is-active':showNav}" @click="showNav=false">
+      <div class="modal-background"></div>
+    </div>
     <nav class="navbar card is-fixed-top " role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <router-link class="navbar-item" id="logo-main-page" :to="{name:'MainPage'}" ><img class="button" src="@/assets/logo_small.png" href="/" style="height:100%;padding:0"></router-link>
@@ -28,6 +31,7 @@
       </div>
 
     </nav>
+
     <div class="modal" :class="{'is-active':isShowingLogin}">
       <div class="modal-background" @click="isShowingLogin=false"></div>
       <div class="modal-content box is-4by3">
@@ -89,6 +93,10 @@ export default {
 button{
   align-self: center;
 }
+
+.modal.modal-nav{
+  z-index: 1;
+}
 .navbar{
   /*border-bottom: 1px solid black;*/
 }
@@ -124,20 +132,5 @@ nav{
 #logo-main-page {
   max-height: 10vh;
 }
-/*
-a {
-  color: #222222;
-  text-decoration: none;
-}
 
-nav{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  flex: 1 1 auto;
-  justify-content: space-between;
-  align-items: center;
-  margin-right: 10px;
-  margin-left: 10px;
-  }*/
 </style>

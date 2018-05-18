@@ -3,17 +3,14 @@
 @import "~bulma/sass/utilities/_all";
 
 // Set your colors
-$primary: #BE0004;
-$primary-invert: findColorInvert($primary);
+$primary: #E5001C;
+$secondary: #5A89E6;
+$tercero:#FAD354;
+$info: $secondary ;
+$warning: $tercero;
+$link: $secondary;//$blue;
 
-
-
-
-
-$link: $blue;
-$info: $cyan;
 $success: $green;
-$warning: $yellow;
 $danger: $red;
 $dark: $grey-darker;
 $text: $grey-dark;
@@ -35,7 +32,7 @@ $colors: (
     "danger": ($danger, $danger-invert),
     "twitter": ($twitter, $twitter-invert)
 );
-$navbar-item-color : "red";
+$navbar-item-color : $primary;
 // $navbar-height: 7vh;
 // Links
 $link: $primary;
@@ -49,6 +46,9 @@ $modal-content-spacing-tablet:100px;
 // / for vote section
 $tabs-toggle-link-active-background-color: lightgray;
 $tabs-toggle-link-active-border-color: lightgray;
+
+
+
 // $tabs-boxed-link-active-background-color: lightgray;
 // Import Bulma and Buefy styles
 

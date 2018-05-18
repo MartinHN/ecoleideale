@@ -75,6 +75,8 @@ export default {
 i{
   display: inline-block;
   flex: 0 1 100px;
+  margin: 5px;
+  cursor: pointer;
 /*  width:40px;
   height: 40px*/
 /*float:right;*/

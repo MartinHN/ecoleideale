@@ -1,39 +1,43 @@
 <template>
   <div >
     <div id="mainpage">
-      <button id="participate" class="button is-primary" @click="$router.push('propositions')"  > Je Participe </button>
-
+      <div id="participate" >
+        <button class="button is-primary" @click="$router.push('propositions')"  > Je Participe </button>
+      </div>
       <div id="slidersContainers">
-        <div id="comment-box" class="box">
+        <div  id="comment-box" class="sliderContainer box has-background-tercero">
           <carousel  :per-page="1" autoplay autoplayHoverPause navigationEnabled mouse-drag :autoplayTimeout="4000" :paginationEnabled="false">
-            <slide v-for="s of comments" :key="s.id">
-                <div class="card-content">
-                  <div class="media">
-                    <div class="media-left">
-                      <figure class="image is-48x48">
-                        <img v-show="s.photo" :src="s.photo" style="width:100px;">
-                      </figure>
-                    </div>
-                    <div class="media-content">
-                      <p class="title is-4">{{s.title}}</p>
-                      <p class="subtitle is-6">{{s.author}}</p>
-                    </div>
+            <slide class="slide" v-for="s of comments" :key="s.id">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-left">
+                    <figure class="image is-48x48">
+                      <img v-show="s.photo" :src="s.photo" style="width:100px;">
+                    </figure>
                   </div>
-
-                  <div v-html="s.__content"></div>
+                  <div class="media-content">
+                    <p class="title is-4">{{s.title}}</p>
+                    <p class="subtitle is-6">{{s.author}}</p>
+                  </div>
                 </div>
-              <!-- </div> -->
+
+                <div v-html="s.__content"></div>
+              </div>
             </slide>
           </carousel>
         </div>
-        <div id="propositions-box" class="box">
+        <div class="sliderContainer box has-background-secondary" id="propositions-box">
+
           <carousel :per-page="1" autoplay autoplayHoverPause  navigationEnabled mouse-drag :autoplayTimeout="5000" :paginationEnabled="false">
-            <slide v-for="s of propositions" :key="s.id">
-              <h2>{{s.number}}. {{s.parsedTitle}}</h2>
-              <div v-html="s.__content"></div>
-              <em>{{s.author}}</em>
+            <slide class="slide" v-for="s of propositions" :key="s.id">
+              <div class="box">
+                <h2 class="title is-8">{{s.number}}. {{s.parsedTitle}}</h2>
+                <div v-html="s.__content"></div>
+                <em>{{s.author}}</em>
+              </div>
             </slide>
           </carousel>
+          
         </div>
       </div>
     </div>
@@ -65,73 +69,82 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+<style scoped>
 
-$participate-height:40vh;
+
 #mainpage{
   display: flex;
   flex-direction: column;
-  /*margin-top: 10px;*/
-  height:90vh; /*fullscreen is 90%ofvh (navbar=10vh)*/
+  flex: 1 1 0;
   align-content: center;
-  width: 100%;
+  
   
 }
 
-pre, code{
-  padding:0;
-  max-width: 100%;
-}
+/*// pre, code{
+  //   padding:0;
+  //   max-width: 100%;
+  // }*/
 
-#participate{
+  #participate{
+    padding-top: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    flex: .6 1 0;
+    box-sizing:border-box;
+    display: flex;
+    flex-direction: column;
 
-  /*width:100%;*/
-  flex:1 1 $participate-height;
-  margin: 10px;
-  background-color: #BE0004
-}
+  }
+  #participate .button{
+    flex: 1 1 0;
+  }
 
-#slidersContainers{
-  flex:1 1 90vh-$participate-height;
-  /*margin:10px;*/
-  display: flex;
-  flex-direction:row;
-  flex-wrap: wrap;
-  /*justify-content: space-between;*/
-  /*align-items:stretch;
-  align-content:stretch;*/
-  
-}
-#slidersContainers > .box{
-  margin:10px;
-  box-sizing: border-box;
-  /*min-height: 30vh;*/
-  /*flex:1 1 450px;*/
-  flex: 1 1 300px;
-  /*max-width: 50vw;*/
-  
-}
+  #slidersContainers{
+    flex: 1 1 0;
+    padding:5px;
+
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+    max-width:100%;
+    /*justify-content: space-between;*/
+    /*align-content:stretch;*/
+
+
+  }
+  #slidersContainers > .sliderContainer{
+    flex: 1 1 0;
+    max-width:calc(100% - 10px);
+    /*max-height: 10px;*/
+    
+    margin:5px;
+
+    /*box-sizing:border-box;*/
+
+  }
+
+  .slide{
+    padding:10px;
+    width:100px;
+  }
+
 /*@media screen and (min-width: 800px) {
   #slidersContainers > .box {
     flex: 1;
   }
-}*/
+  }*/
 
-#propositions-box{
-  background-color: #5A89E6
-}
-#comment-box{
-  background-color: #FAD354
-}
-.card{
-  background-color: transparent;
-}
-.VueCarousel{
-  height: 100%;
 
-  /*display: block;*/
-  overflow-y: scroll;
-  /*overflow-x: hidden;*/
-}
+  .card{
+    /*background-color: transparent;*/
+  }
+  .VueCarousel{
+    height: 100%;
+    
+    /*display: block;*/
+    overflow-y: scroll;
+    overflow-x: scroll;
+  }
 
 </style>

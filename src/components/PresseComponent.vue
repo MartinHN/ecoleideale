@@ -1,7 +1,7 @@
 <template>
   <div>
-  <h1 class="hello">Presse</h1>
-  <div v-html="content.__content"></div>
+  <h1 class="page-header">Presse</h1>
+  <div class="md-content" v-html="content.__content"></div>
 </div>
 </template>
 
@@ -19,15 +19,5 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
-  <h1 class="hello">Contact</h1>
-  <div v-html="content.__content"></div>
+  <h1 class="page-header">Contact</h1>
+  <div class="md-content" v-html="content.__content"></div>
 </div>
 </template>
 

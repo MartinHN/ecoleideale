@@ -1,6 +1,7 @@
 <!--NavbarComponent.vue-->
 <template>
   <div class="proposition-page">
+    
     <div class="" id="header">
 
       <div class="card-content" id="content-header">
@@ -14,9 +15,11 @@
         </div>
 
         <div v-html="content" ></div>
+        
       </div>
       <img id="img-header" src="http://placeholder.pics/svg/300/DEDEDE/555555/image du vote"></img>
     </div>
+    
     <div class="card vote card-content">
       <div class="tabs is-toggle is-toggle-rounded is-fullwidth" >
         <ul>
@@ -228,6 +231,14 @@ $vote-height:35vh;
 .vote-text-button{
   flex: 1 3 0;
   
+}
+
+.component-fade-enter-active, .component-fade-leave-active {
+  transition: opacity .3s ease;
+}
+.component-fade-enter, .component-fade-leave-to
+/* .component-fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 </style>

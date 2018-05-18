@@ -27,13 +27,12 @@ export default {
   components: {NavbarComponent, FooterComponent},
   data () {
     return {
-      toasts:[]//{text:"lalal",t:new Date(),dur:1000},{text:"lolo",is_success:true,t:new Date(),dur:4000}]
+      
     };
   },
   mounted(){
 
     // window.setTimeout(()=>{
-    //   // this.toasts.splice(this.toasts.length,0,
     //   this.$root.addErrorToast("laljhqslkqdhslksdjlqskjdmqljqdslkdsqj qslkhdjqsdqjmdqldqsml")
     // }
     //   ,200)
@@ -61,18 +60,41 @@ export default {
 @import "bulma";
 // @import "~buefy/src/scss/buefy";
 
+.has-background-secondary{
+  background-color: $secondary;
+}
+
+.has-background-tercero{
+  background-color: $tercero;
+}
+.md-content{
+  margin:10px;
+}
+
+.page-header{
+  text-align:center;
+  width:100%;
+  flex:0 1 auto;
+  font-weight:200%;
+  margin-top:5px;
+}
+
 #router-view{
-  // height:auto;
+  
+  position: fixed;
+  top:10vh;
+  left: 0px;
+  right: 0px;
   min-height: 90vh;//calc( 100% - 3.25rem -10px ); /*7 vh in navbar*/
+  overflow-y:scroll;
+  overflow-x:scroll;
+  display:flex;
+  flex-direction:column;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
-  color: #2c3e50;
-  // margin-top: 10px;
-  // scroll-behavior: smooth;
 }
 h1, h2 {
   font-weight: bold;

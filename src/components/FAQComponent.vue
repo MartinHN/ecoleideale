@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 id="faq-container">FAQ</h1>
+    <h1 id="faq-container" class="page-header">FAQ</h1>
 
     <div v-for="f of faqs" class="toc">
       <a class="is-primary" @click='scrollMeTo(f.title)'>{{f.title}}</a>
